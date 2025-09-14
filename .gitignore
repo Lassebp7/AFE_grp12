@@ -51,7 +51,7 @@ yarn-error.log
 *.sublime-workspace
 
 # Visual Studio Code
-/HandIn1/CCMS/.vscode/*
+/HandIn1/CCMS/.vscode/
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
@@ -59,7 +59,7 @@ yarn-error.log
 .history/*
 
 # Miscellaneous
-/HandIn1/CCMS//.angular/cache
+/HandIn1/CCMS/.angular/cache
 .sass-cache/
 /connect.lock
 /coverage
