@@ -1,11 +1,11 @@
 # Angular specific
-/HandIn1/CCMS/dist/
-/HandIn1/CCMS/out-tsc/
-/HandIn1/CCMS/tmp/
-/HandIn1/CCMS/coverage/
-/HandIn1/CCMS/e2e/test-output/
-/HandIn1/CCMS/.angular/
-/HandIn1/CCMS/.angular/
+/dist/
+/out-tsc/
+/tmp/
+/coverage/
+/e2e/test-output/
+/.angular/
+/.angular/
 
 # Node modules and dependency files
 /node_modules/
@@ -13,12 +13,12 @@
 /yarn.lock
 
 # Environment files
-/HandIn1/CCMS/.env
-/HandIn1/CCMS/src/environments/
+/.env
+/src/environments/
 
 # Angular CLI and build artefacts
-/HandIn1/CCMS/.angular-cli.json
-/HandIn1/CCMS/.ng/
+/.angular-cli.json
+/.ng/
 
 # TypeScript cache
 *.tsbuildinfo
@@ -31,10 +31,10 @@ yarn-error.log*
 # See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
 # Compiled output
-/HandIn1/CCMS/dist
-/HandIn1/CCMS/tmp
-/HandIn1/CCMS/out-tsc
-/HandIn1/CCMS/bazel-out
+/dist
+/tmp
+/out-tsc
+/bazel-out
 
 # Node
 /node_modules
@@ -51,7 +51,7 @@ yarn-error.log
 *.sublime-workspace
 
 # Visual Studio Code
-/HandIn1/CCMS/.vscode/
+/.vscode/
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
@@ -59,14 +59,14 @@ yarn-error.log
 .history/*
 
 # Miscellaneous
-/HandIn1/CCMS/.angular/cache
+/.angular/cache
 .sass-cache/
 /connect.lock
 /coverage
 /libpeerconnection.log
 testem.log
 /typings
-/HandIn1/CCMS/node_modules
+/node_modules
 
 # System files
 .DS_Store
