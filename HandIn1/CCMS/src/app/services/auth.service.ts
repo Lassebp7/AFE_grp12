@@ -13,6 +13,7 @@ interface Login {
 export class AuthService {
   private http = inject(HttpClient);
   private baseUrl = environment.baseUrl;
+
   login(username: string, password: string) {
     const loginBody: Login = {
       username,
@@ -26,5 +27,10 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('token');
+  }
+
+  getToken() {
+    const token = localStorage.getItem('token');
+    return token ? token : null;
   }
 }
