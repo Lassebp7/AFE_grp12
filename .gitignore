@@ -1,11 +1,11 @@
 # Angular specific
-/dist/
-/out-tsc/
-/tmp/
-/coverage/
-/e2e/test-output/
-/.angular/
-.angular/
+/HandIn1/CCMS/dist/
+/HandIn1/CCMS/out-tsc/
+/HandIn1/CCMS/tmp/
+/HandIn1/CCMS/coverage/
+/HandIn1/CCMS/e2e/test-output/
+/HandIn1/CCMS/.angular/
+/HandIn1/CCMS/.angular/
 
 # Node modules and dependency files
 /node_modules/
@@ -13,11 +13,12 @@
 /yarn.lock
 
 # Environment files
-/.env
+/HandIn1/CCMS/.env
+/HandIn1/CCMS/src/environments/
 
 # Angular CLI and build artefacts
-/.angular-cli.json
-/.ng/
+/HandIn1/CCMS/.angular-cli.json
+/HandIn1/CCMS/.ng/
 
 # TypeScript cache
 *.tsbuildinfo
@@ -26,3 +27,47 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+
+# Compiled output
+/HandIn1/CCMS/dist
+/HandIn1/CCMS/tmp
+/HandIn1/CCMS/out-tsc
+/HandIn1/CCMS/bazel-out
+
+# Node
+/node_modules
+npm-debug.log
+yarn-error.log
+
+# IDEs and editors
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Visual Studio Code
+/HandIn1/CCMS/.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# Miscellaneous
+/HandIn1/CCMS//.angular/cache
+.sass-cache/
+/connect.lock
+/coverage
+/libpeerconnection.log
+testem.log
+/typings
+/HandIn1/CCMS/node_modules
+
+# System files
+.DS_Store
+Thumbs.db
