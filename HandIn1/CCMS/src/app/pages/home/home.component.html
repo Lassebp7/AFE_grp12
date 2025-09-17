@@ -2,3 +2,9 @@
 <button class="bg-gray-500 rounded-lg p-2" (click)="[login()]">Log in</button>
 <button class="bg-red-300 rounded-lg p-2" (click)="[logout()]">Logout</button>
 <button class="bg-green-300 rounded-lg p-2" (click)="[GetCreditCards()]">getCreditCards</button>
+
+@if (creditCardList$ | async; as creditCards) {
+@for (cc of creditCardList$ | async; track $index) {
+<p>{{cc.cardNumber}}</p>
+}
+}

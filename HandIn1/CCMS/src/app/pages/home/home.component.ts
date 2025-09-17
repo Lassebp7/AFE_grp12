@@ -10,10 +10,12 @@ import {
   CreditCard,
   CreditCardService,
 } from '../../services/CreditCard.service';
+import { Observable } from 'rxjs';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-home',
-  imports: [],
+  imports: [AsyncPipe],
   templateUrl: './home.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -22,18 +24,10 @@ export class HomeComponent {
   private creditCardService = inject(CreditCardService);
   public username = environment.username;
   public password = environment.password;
-  public creditCardList: CreditCard[] = [];
+  public creditCardList$!: Observable<CreditCard[]>;
 
   GetCreditCards() {
-    this.creditCardService.getCreditCardList().subscribe({
-      next: (res) => {
-        this.creditCardList = res;
-        console.log(res);
-      },
-      error: (err) => {
-        console.error(err);
-      },
-    });
+    this.creditCardList$ = this.creditCardService.getCreditCardList();
   }
 
   login() {
