@@ -52,9 +52,7 @@ export class AddCredit {
   });
 
   submit() {
-    console.log('in submit');
     if (this.creditCardForm.invalid) {
-      console.log('not valid form!');
       this.creditCardForm.markAllAsTouched();
       return;
     }

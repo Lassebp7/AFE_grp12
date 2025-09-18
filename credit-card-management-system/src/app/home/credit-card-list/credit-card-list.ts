@@ -49,13 +49,12 @@ export class CreditCardList {
   handleDeleteCard(card: CreditCard) {
     this.creditCardService.deleteCreditCard(card.cardNumber).subscribe({
       next: (response) => {
-        console.log('Deleted card succesfully');
         this.creditCards.update((cards) => cards.filter((c) => c.cardNumber !== card.cardNumber));
         this.selectedCard.set(null);
         this.selectedView.set(false);
       },
       error: (error) => {
-        console.log('Error deleting card:', error);
+        console.error('Error deleting card:', error);
       },
     });
   }
