@@ -5,7 +5,6 @@ import { TransactionService } from '../api-services/transaction-service/transact
   selector: 'app-transactions',
   imports: [],
   templateUrl: './transactions.html',
-  styleUrl: './transactions.css'
 })
 export class Transactions {
   transactionService = inject(TransactionService)

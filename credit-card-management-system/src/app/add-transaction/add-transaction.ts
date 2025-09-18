@@ -4,8 +4,7 @@ import { TransactionService } from '../api-services/transaction-service/transact
 @Component({
   selector: 'app-add-transaction',
   imports: [],
-  templateUrl: './add-transaction.component.html',
-  styleUrl: './add-transaction.component.css'
+  templateUrl: './add-transaction.html',
 })
 export class AddTransactionComponent {
   private transactionService = inject(TransactionService)

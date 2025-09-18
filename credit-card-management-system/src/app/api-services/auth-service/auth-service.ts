@@ -19,6 +19,11 @@ export class AuthService {
 
   private http = inject(HttpClient)
 
+  isAuthenticated() {
+    const token = localStorage.getItem(this.TOKEN_KEY)
+    return this.isTokenExpired(token)
+  }
+
   private isTokenExpired(token: string | null): boolean {
     if (!token) return true
     try {
