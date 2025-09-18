@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import {Routes} from '@angular/router';
 import {Home} from './home/home';
 import {AddCredit} from './add-credit/add-credit';
 import {Transactions} from './transactions/transactions';
@@ -10,19 +10,19 @@ export const routes: Routes = [
     title: "Home",
     path: "",
     component: Home,
-    canActivateChild: [authGuard]
+    canActivate: [authGuard],
   },
   {
     title: "Add Credit",
     path: "add-credit",
     component: AddCredit,
-    canActivateChild: [authGuard]
+    canActivate: [authGuard]
   },
   {
     title: "Transactions",
     path: "transactions",
     component: Transactions,
-    canActivateChild: [authGuard]
+    canActivate: [authGuard]
   },
   {
     path: "**",
