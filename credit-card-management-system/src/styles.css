@@ -1,0 +1,52 @@
+/* You can add global styles to this file, and also import other style files */
+
+:root {
+  --background-primary: #222;
+  --background-secondary: #eed;
+  --container-bg-primary: var(--background-secondary);
+  --container-bg-secondary: var(--background-primary);
+  --container-text-primary: #222;
+  --container-text-secondary: #eed;
+  --text-primary: #eed;
+  --text-secondary: #222;
+}
+
+body {
+  width: 100vw;
+  background-color: var(--background-primary);
+  color: var(--text-primary);
+  font-family: "JetBrains Mono", sans-serif;
+  padding: 0;
+  margin: 0;
+}
+
+button {
+  font-family: "JetBrains Mono", sans-serif;
+  padding: .7rem .9rem;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--background-primary);
+  color: var(--text-primary);
+}
+
+button:hover {
+  background-color: #333;
+}
+
+button:active {
+  background-color: #aaa;
+  color: var(--text-secondary);
+}
+
+a, a:active, a:visited, a:focus {
+  text-decoration: none;
+  color: var(--container-text-primary);
+}
+
+input {
+  font-family: "JetBrains Mono", sans-serif;
+  padding: .4rem .7rem;
+  background-color: var(--background-secondary);
+  border-radius: 5px;
+  outline: none;
+}

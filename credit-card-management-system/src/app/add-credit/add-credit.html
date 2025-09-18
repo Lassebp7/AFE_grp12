@@ -1,0 +1,101 @@
+<div>
+  <h2>Add Credit Card</h2>
+  <form [formGroup]="creditCardForm" (ngSubmit)="submit()">
+        <div class="input-group">
+<!--          CARD NUMBER -->
+          <label for="cardNumber">Card Number</label>
+          <input type="text" id="cardNumber" formControlName="cardNumber" class="form-control">
+          @if (creditCardForm.get('cardNumber')!.touched) {
+            <div class="alert">
+              @if (creditCardForm.get('cardNumber')!.hasError('required')) {
+                <div>Card Number is required.</div>
+              }
+              @if (creditCardForm.get('cardNumber')!.hasError('min')) {
+                <div>Card Number must be at least 7 digits</div>
+              }
+              @if (creditCardForm.get('cardNumber')!.hasError('max')) {
+                <div>Card Number must be at most 16 digits</div>
+              }
+              @if (creditCardForm.get('cardNumber')!.hasError('pattern')) {
+                <div>Card Number must be only digits</div>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="input-group">
+<!--          CARDHOLDER NAME -->
+          <label for="cardHolderName">Cardholder Name</label>
+          <input type="text" id="cardHolderName" formControlName="cardHolderName" class="form-control">
+          @if (creditCardForm.get('cardHolderName')!.touched) {
+            <div class="alert">
+              @if (creditCardForm.get('cardHolderName')!.hasError('required')) {
+                <div>Cardholder Name is required.</div>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="input-group">
+<!--          CSC CODE -->
+          <label for="cscCode">CSC Code</label>
+          <input type="text" id="cscCode" formControlName="cscCode" class="form-control">
+          @if (creditCardForm.get('cscCode')!.touched) {
+            <div class="alert">
+              @if (creditCardForm.get('cscCode')!.hasError('required')) {
+                <div>CSC Code is required.</div>
+              }
+              @if (creditCardForm.get('cscCode')!.hasError('pattern')) {
+                <div>CSC Code must be exactly 3 digits and only numbers.</div>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="input-group">
+<!--          EXPIRATION MONTH -->
+          <label for="expirationMonth">Expiration Month</label>
+          <input type="text" id="expirationMonth" formControlName="expirationMonth" class="form-control">
+          @if (creditCardForm.get('expirationMonth')!.touched) {
+            <div class="alert">
+              @if (creditCardForm.get('expirationMonth')!.hasError('required')) {
+                <div>Expiration month is required.</div>
+              }
+              @if (creditCardForm.get('expirationMonth')!.hasError('min') || creditCardForm.get('expirationMonth')!.hasError('max')) {
+                <div>Expiration month must be between 1 and 12.</div>
+              }
+              @if (creditCardForm.get('expirationMonth')!.hasError('pattern')) {
+                <div>Expiration month must be a number.</div>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="input-group">
+<!--          EXPIRATION YEAR -->
+          <label for="expirationYear">Expiration Year</label>
+          <input type="text" id="expirationYear" formControlName="expirationYear" class="form-control">
+          @if (creditCardForm.get('expirationYear')!.touched) {
+            <div class="alert">
+              @if (creditCardForm.get('expirationYear')!.hasError('required')) {
+                <div>Expiration year is required.</div>
+              }
+              @if (creditCardForm.get('expirationYear')!.hasError('pattern')) {
+                <div>Expiration year must be a number.</div>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="input-group">
+<!--          ISSUER -->
+          <label for="issuer">Issuer</label>
+          <input type="text" id="issuer" formControlName="issuer" class="form-control">
+        </div>
+
+        <div class="actions">
+          <button type="submit">Submit</button>
+        </div>
+
+  </form>
+</div>

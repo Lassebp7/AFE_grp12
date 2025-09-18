@@ -1,0 +1,25 @@
+<div class="credit-card-list-item">
+  <p>Card holder: {{creditCardInfo().cardHolderName}}</p>
+  <p>{{creditCardInfo().cardNumber}} - CSC: {{creditCardInfo().cscCode}}</p>
+  <p>Exp: {{creditCardInfo().expirationMonth}}/{{creditCardInfo().expirationYear}}</p>
+  <p>Issuer: {{creditCardInfo().issuer}}</p>
+</div>
+
+<div>
+  <p>Transactions:</p>
+  @if (transactions().length === 0) {
+    <p>No Transactions on card!</p>
+  }
+  @for (transaction of transactions(); track transaction) {
+    <div>
+      <div>
+        <span>UID: {{transaction.uid}}</span>
+        <span>{{transaction.transactionDate}}</span>
+      </div>
+      <div>
+        <span>Card Number: {{transaction.cardNumber}}</span>
+        <span>Amount: {{transaction.amount}} {{transaction.currencyCode}}</span>
+      </div>
+    </div>
+  }
+</div>

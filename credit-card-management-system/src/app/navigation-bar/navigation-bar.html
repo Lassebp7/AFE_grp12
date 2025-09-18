@@ -1,0 +1,9 @@
+
+<div class="nav-wrapper">
+  <span class="nav-title">{{appName | uppercase}}</span>
+  <nav class="nav-list">
+    @for (route of navigationRoutes; track route) {
+      <a routerLink="{{route.path}}" class="nav-item">{{route.title}}</a>
+    }
+  </nav>
+</div>

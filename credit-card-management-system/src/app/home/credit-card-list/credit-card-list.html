@@ -1,0 +1,19 @@
+<div>
+  @if (!selectedView()) {
+    <h1>Credit Card List</h1>
+    @for (card of creditCards(); track card) {
+      <button (click)="handleSelectCard(card)">
+        <div class="credit-card-list-item">
+          <p>Card holder: {{card.cardHolderName}}</p>
+          <p>{{card.cardNumber}}</p>
+          <p>Issuer: {{card.issuer}}</p>
+        </div>
+      </button>
+    }
+  } @else if (selectedView() && selectedCard()) {
+    <h1>Credit Card Details</h1>
+    <button (click)="handleExitSelectView()">Back to list view</button>
+    <button (click)="handleDeleteCard(selectedCard()!)">Delete Card</button>
+    <app-credit-card-details [creditCardInfo]="selectedCard()!" [transactions]="selectedTransaction()"/>
+  }
+</div>
