@@ -32,6 +32,7 @@ export class Transactions {
         next: (response) => {
           console.log('Deleted transaction succesfully')
           this.transactions.update(transactions => transactions.filter(t => t.uid !== transaction.uid))
+          this.filteredTransactions.update(transactions => transactions.filter(t => t.uid !== transaction.uid))
         },
         error: (error) => {
           console.log("Error deleting transaction:", error)
