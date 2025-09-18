@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, EventEmitter, inject, Output, signal } from '@angular/core';
 import { TransactionService } from '../api-services/transaction-service/transaction-service';
 import { AddTransactionComponent } from "../add-transaction/add-transaction";
 
@@ -45,5 +45,16 @@ export class Transactions {
     this.filteredTransactions.set(this.transactions().filter(t =>
       t.cardNumber.toString().toLowerCase().includes(text)
     ))
+  }
+
+  onTransactionAdded(newTransaction: Transaction) {
+    this.transactions.update(currentTransactions => [
+      newTransaction,
+      ...currentTransactions,
+    ]);
+    this.filteredTransactions.update(currentTransactions => [
+      newTransaction,
+      ...currentTransactions,
+    ]);
   }
 }

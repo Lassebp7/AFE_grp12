@@ -1,4 +1,66 @@
 <!-- <p>add-transaction works!</p> -->
-<div>
-    <h2>Add Transaction</h2>
-</div>
+<div class="mb-4">
+    <h2>Add Transaction:</h2>
+    <form [formGroup]="transactionForm" (ngSubmit)="submit()" class="flex flex-col gap-4">
+        <div class="border-black border rounded flex gap-4 flex-row p-2">
+            <label class="w-1/4" for="cardNumber">Card Number</label>
+            <select id="cardNumber" formControlName="cardNumber" class="shadow border rounded w-max px-2">
+                <option value="" disabled selected>Select a card</option>
+                @for (card of creditCards(); track card) {
+                <option [value]="card.cardNumber">{{ card.cardNumber }} - {{ card.cardHolderName }}</option>
+                }
+            </select>
+        </div>
+
+        <div class="border-black border rounded flex gap-4 flex-row p-2">
+            <label class="w-1/4" for="amount">Amount</label>
+            <input type="number" id="amount" formControlName="amount" class="shadow border rounded w-max px-2">
+            @if (transactionForm.get('amount')!.touched) {
+            <div class="">
+                @if (transactionForm.get('amount')!.hasError('required')) {
+                <div class="text-red-500">Amount is required.</div>
+                }
+                @if (transactionForm.get('amount')!.hasError('min')) {
+                <div class="text-red-500">Amount must be at least 0.01</div>
+                }
+            </div>
+            }
+        </div>
+
+        <div class="border-black border rounded flex gap-4 flex-row p-2">
+            <label class="w-1/4" for="currencyCode">Currency Code</label>
+            <input type="text" id="currencyCode" formControlName="currencyCode"
+                class="shadow border rounded w-max px-2">
+            @if (transactionForm.get('currencyCode')!.touched) {
+            <div class="alert">
+                @if (transactionForm.get('currencyCode')!.hasError('required')) {
+                <div class="text-red-500">Currency Code is required.</div>
+                }
+                @if (transactionForm.get('currencyCode')!.hasError('pattern')) {
+                <div class="text-red-500">Currency Code must be exactly 3 uppercase letters.</div>
+                }
+                @if (transactionForm.get('currencyCode')!.hasError('minlength')) {
+                <div class="text-red-500">Currency Code must be exactly 3 characters.</div>
+                }
+                @if (transactionForm.get('currencyCode')!.hasError('maxlength')) {
+                <div class="text-red-500">Currency Code must be exactly 3 characters.</div>
+                }
+            </div>
+            }
+        </div>
+
+        <div class="border-black border rounded flex gap-4 flex-row p-2">
+            <label class="w-1/4" for="comment">Comment</label>
+            <input type="text" id="comment" formControlName="comment" class="shadow border rounded w-max px-2">
+            @if (transactionForm.get('comment')!.touched) {
+            <div class="alert">
+                @if (transactionForm.get('comment')!.hasError('maxlength')) {
+                <div class="text-red-500">Comment cannot exceed 200 characters.</div>
+                }
+            </div>
+            }
+        </div>
+
+        <button type="submit" class="p-2 bg-blue-500 hover:bg-blue-600 transition-colors rounded text-white w-max">
+            Add Transaction
+        </button>

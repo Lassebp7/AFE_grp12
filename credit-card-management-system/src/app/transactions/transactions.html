@@ -1,13 +1,12 @@
 <h1 class="text-lg mb-4">Transactions list:</h1>
 <div>
-    <p>Filter:</p>
-    <input class="border p-2 rounded w-full placeholder-gray-400" (input)="updateFilterText($event)"
-        placeholder="Filter by card number" />
+    <app-add-transaction (transactionAdded)="onTransactionAdded($event)" />
 </div>
 
 <div>
-    <p>Add Transaction:</p>
-    <app-add-transaction></app-add-transaction>
+    <p>Filter:</p>
+    <input class="border p-2 rounded w-full placeholder-gray-400" (input)="updateFilterText($event)"
+        placeholder="Filter by card number" />
 </div>
 
 <table class="w-full mt-4 border-collapse">
