@@ -1,9 +1,10 @@
 import { Component, inject, signal } from '@angular/core';
 import { TransactionService } from '../api-services/transaction-service/transaction-service';
+import { AddTransactionComponent } from "../add-transaction/add-transaction";
 
 @Component({
   selector: 'app-transactions',
-  imports: [],
+  imports: [AddTransactionComponent],
   templateUrl: './transactions.html',
 })
 export class Transactions {
