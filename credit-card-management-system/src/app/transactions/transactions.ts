@@ -4,8 +4,5 @@ import { Component } from '@angular/core';
   selector: 'app-transactions',
   imports: [],
   templateUrl: './transactions.html',
-  styleUrl: './transactions.css'
 })
-export class Transactions {
-
-}
+export class Transactions {}
