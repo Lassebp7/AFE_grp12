@@ -13,7 +13,7 @@
     "singleQuote": true,
     "overrides": [
       {
-        "files": "*.html",
+        "files": "*.html, *.component.html",
         "options": {
           "parser": "angular"
         }

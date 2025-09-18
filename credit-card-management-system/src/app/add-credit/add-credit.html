@@ -1,12 +1,27 @@
 <div>
-  <h2>Add Credit Card</h2>
-  <form [formGroup]="creditCardForm" (ngSubmit)="submit()">
-        <div class="input-group">
+  <h1 class="text-4xl">
+    Add Credit Card
+  </h1>
+  <form
+    class="bg-gray-400 p-2 rounded-md w-9/12"
+    [formGroup]="creditCardForm" (ngSubmit)="submit()"
+  >
 <!--          CARD NUMBER -->
-          <label for="cardNumber">Card Number</label>
-          <input type="text" id="cardNumber" formControlName="cardNumber" class="form-control">
+        <div
+          class="flex flex-row item-center p-1"
+        >
+          <label
+            for="cardNumber"
+            class="w-44"
+          >
+            Card Number
+          </label>
+          <input
+            class="p-1 mr-3 bg-white rounded-md"
+            type="text" id="cardNumber" formControlName="cardNumber"
+          >
           @if (creditCardForm.get('cardNumber')!.touched) {
-            <div class="alert">
+            <div class="text-red-600">
               @if (creditCardForm.get('cardNumber')!.hasError('required')) {
                 <div>Card Number is required.</div>
               }
@@ -23,12 +38,24 @@
           }
         </div>
 
-        <div class="input-group">
 <!--          CARDHOLDER NAME -->
-          <label for="cardHolderName">Cardholder Name</label>
-          <input type="text" id="cardHolderName" formControlName="cardHolderName" class="form-control">
+        <div
+          class="flex flex-row item-center p-1"
+        >
+          <label
+            class="w-44"
+            for="cardHolderName"
+          >
+            Cardholder Name
+          </label>
+          <input
+            class="p-1 mr-3 bg-white rounded-md"
+            type="text" id="cardHolderName" formControlName="cardHolderName"
+          >
           @if (creditCardForm.get('cardHolderName')!.touched) {
-            <div class="alert">
+            <div
+              class="text-red-600"
+            >
               @if (creditCardForm.get('cardHolderName')!.hasError('required')) {
                 <div>Cardholder Name is required.</div>
               }
@@ -36,12 +63,22 @@
           }
         </div>
 
-        <div class="input-group">
 <!--          CSC CODE -->
-          <label for="cscCode">CSC Code</label>
-          <input type="text" id="cscCode" formControlName="cscCode" class="form-control">
+        <div
+          class="flex flex-row item-center p-1"
+        >
+          <label
+            class="w-44"
+            for="cscCode"
+          >
+            CSC Code
+          </label>
+          <input
+            class="p-1 mr-3 bg-white rounded-md"
+            type="text" id="cscCode" formControlName="cscCode"
+          >
           @if (creditCardForm.get('cscCode')!.touched) {
-            <div class="alert">
+            <div class="text-red-600">
               @if (creditCardForm.get('cscCode')!.hasError('required')) {
                 <div>CSC Code is required.</div>
               }
@@ -52,12 +89,24 @@
           }
         </div>
 
-        <div class="input-group">
 <!--          EXPIRATION MONTH -->
-          <label for="expirationMonth">Expiration Month</label>
-          <input type="text" id="expirationMonth" formControlName="expirationMonth" class="form-control">
+        <div
+          class="flex flex-row item-center p-1"
+        >
+          <label
+            class="w-44"
+            for="expirationMonth"
+          >
+            Expiration Month
+          </label>
+          <input
+            class="p-1 mr-3 bg-white rounded-md"
+            type="text" id="expirationMonth" formControlName="expirationMonth"
+          >
           @if (creditCardForm.get('expirationMonth')!.touched) {
-            <div class="alert">
+            <div
+              class="text-red-600"
+            >
               @if (creditCardForm.get('expirationMonth')!.hasError('required')) {
                 <div>Expiration month is required.</div>
               }
@@ -71,12 +120,24 @@
           }
         </div>
 
-        <div class="input-group">
 <!--          EXPIRATION YEAR -->
-          <label for="expirationYear">Expiration Year</label>
-          <input type="text" id="expirationYear" formControlName="expirationYear" class="form-control">
+        <div
+          class="flex flex-row item-center p-1"
+        >
+          <label
+            class="w-44"
+            for="expirationYear"
+          >
+            Expiration Year
+          </label>
+          <input
+            class="p-1 mr-3 bg-white rounded-md"
+            type="text" id="expirationYear" formControlName="expirationYear"
+          >
           @if (creditCardForm.get('expirationYear')!.touched) {
-            <div class="alert">
+            <div
+              class="text-red-600"
+            >
               @if (creditCardForm.get('expirationYear')!.hasError('required')) {
                 <div>Expiration year is required.</div>
               }
@@ -87,14 +148,24 @@
           }
         </div>
 
-        <div class="input-group">
 <!--          ISSUER -->
-          <label for="issuer">Issuer</label>
-          <input type="text" id="issuer" formControlName="issuer" class="form-control">
+        <div
+          class="flex flex-row item-center p-1"
+        >
+          <label
+            class="w-44"
+            for="issuer"
+          >
+            Issuer
+          </label>
+          <input
+            class="p-1 mr-3 bg-white rounded-md"
+            type="text" id="issuer" formControlName="issuer"
+          >
         </div>
 
-        <div class="actions">
-          <button type="submit">Submit</button>
+        <div>
+          <button class="bg-gray-600 text-white py-2 px-4 rounded-md hover:bg-gray-500 hover:cursor-pointer" type="submit">Submit</button>
         </div>
 
   </form>

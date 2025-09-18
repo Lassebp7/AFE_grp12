@@ -1,1 +1,13 @@
 @import 'tailwindcss';
+
+.button-base {
+  background-color: var(--color-gray-600);
+  color: white;
+  padding: 10px 14px;
+  border-radius: 8px;
+}
+
+.button-base:hover {
+  cursor: pointer;
+  background-color: var(--color-gray-500);
+}
