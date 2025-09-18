@@ -1,14 +1,17 @@
-import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { TitleCasePipe, UpperCasePipe } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { routes } from '../app.routes';
+import { AuthService } from '../api-services/auth-service/auth-service';
 
 @Component({
   selector: 'app-navigation-bar',
-  imports: [RouterLink, UpperCasePipe],
+  imports: [RouterLink, RouterLinkActive],
   templateUrl: './navigation-bar.html',
 })
 export class NavigationBar {
-  appName: string = 'angular test app';
-  navigationRoutes = routes.filter((route) => route.path != '**');
+  private authService = inject(AuthService);
+  isAuth = this.authService.isAuth;
+  navigationRoutes = routes
+    .filter((route) => route.path != '**')
+    .filter((route) => route.path != 'login');
 }
