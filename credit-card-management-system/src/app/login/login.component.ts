@@ -13,6 +13,7 @@ export class LoginComponent {
   private authService = inject(AuthService);
   isAuth = this.authService.isAuth;
   loginMessage = signal('');
+  errorMessage = signal('');
   private router = inject(Router);
   username = '';
   password = '';
@@ -20,13 +21,15 @@ export class LoginComponent {
   login() {
     this.authService.login(this.username, this.password).subscribe({
       next: () => {
+        this.errorMessage.set('');
         this.loginMessage.set('Login successful');
         setTimeout(() => {
           this.router.navigate(['/']);
         }, 500);
       },
       error: (err) => {
-        this.loginMessage.set(`An error occured: ${err}`);
+        this.loginMessage.set('');
+        this.errorMessage.set('An error occured during login.');
         console.error(err);
       },
     });
