@@ -1,1 +1,42 @@
-<p>transactions works!</p>
+<h1 class="text-lg mb-4">Transactions list:</h1>
+<div>
+    <p>Filter:</p>
+    <input class="border p-2 rounded w-full placeholder-gray-400" (input)="updateFilterText($event)"
+        placeholder="Filter by card number" />
+</div>
+
+<div>
+    <p>Add Transaction:</p>
+
+</div>
+
+<table class="w-full mt-4 border-collapse">
+    <thead>
+        <tr class="bg-gray-100">
+            <th class="p-2 text-left text-black border border-gray-300">Card number</th>
+            <th class="p-2 text-left text-black border border-gray-300">Amount</th>
+            <th class="p-2 text-left text-black border border-gray-300">Currency</th>
+            <th class="p-2 text-left text-black border border-gray-300">Comment</th>
+            <th class="p-2 text-left text-black border border-gray-300">Date</th>
+            <th class="p-2 border border-gray-300"></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @for (transaction of filteredTransactions(); track transaction) {
+        <tr>
+            <td class="p-2 border border-gray-300">{{ transaction.cardNumber }}</td>
+            <td class="p-2 border border-gray-300">{{ transaction.amount }}</td>
+            <td class="p-2 border border-gray-300">{{ transaction.currencyCode }}</td>
+            <td class="p-2 border border-gray-300">{{ transaction.comment }}</td>
+            <td class="p-2 border border-gray-300">{{ transaction.transactionDate }}</td>
+            <td class="p-2 border border-gray-300">
+                <button (click)="handleDeleteTransaction(transaction)"
+                    class="p-2 bg-red-500 hover:bg-red-600 transition-colors rounded">
+                    Delete
+                </button>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
