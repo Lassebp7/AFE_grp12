@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { of, switchMap, tap } from 'rxjs';
@@ -18,6 +18,8 @@ export class AuthService {
   };
 
   private http = inject(HttpClient);
+
+  isAuth = signal(this.isAuthenticated());
 
   isAuthenticated() {
     const token = localStorage.getItem(this.TOKEN_KEY);
@@ -54,6 +56,7 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem(this.TOKEN_KEY);
+    this.isAuth.set(false);
   }
 
   login(username: string, password: string) {
@@ -65,12 +68,22 @@ export class AuthService {
           responseType: 'text',
         }
       )
-      .pipe(tap((response) => this.setToken(response)));
+      .pipe(
+        tap((response) => {
+          this.setToken(response);
+          this.isAuth.set(true);
+        })
+      );
   }
 
   loginDefault() {
     return this.http
       .post(`${this.baseUrl}${this.endpoint}`, this.credentials, { responseType: 'text' })
-      .pipe(tap((response) => this.setToken(response)));
+      .pipe(
+        tap((response) => {
+          this.setToken(response);
+          this.isAuth.set(true);
+        })
+      );
   }
 }

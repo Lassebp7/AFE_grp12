@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class LoginComponent {
   private authService = inject(AuthService);
+  isAuth = this.authService.isAuth;
   loginMessage = signal('');
   private router = inject(Router);
   username = '';

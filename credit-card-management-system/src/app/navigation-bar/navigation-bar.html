@@ -7,11 +7,16 @@
 
       <div class="flex space-x-6">
 
+        @if (isAuth()) {
         @for (route of navigationRoutes; track route) {
         <a routerLink="{{route.path}}" routerLinkActive="underline underline-offset-2 text-white"
           [routerLinkActiveOptions]="{ exact: true }"
           class="hover:text-white text-gray-300 transition">{{route.title}}</a>
         }
+        }
+        <a routerLink="login" routerLinkActive="underline underline-offset-2 text-white"
+          [routerLinkActiveOptions]="{ exact: true }" class="hover:text-white text-gray-300 transition">Login</a>
+
       </div>
     </div>
   </div>

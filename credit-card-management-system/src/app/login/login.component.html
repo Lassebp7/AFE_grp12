@@ -1,12 +1,17 @@
 <div class="flex flex-col items-center">
   <div class="w-[90vw] flex flex-col items-center">
     <h1 class="font-bold text-2xl py-4">Login</h1>
+    @if (!isAuth()) {
+
     <input [(ngModel)]="username" class="p-2 border-1 rounded-lg shadow-md m-2" type="text" placeholder="Mail">
     <input [(ngModel)]="password" class="p-2 border-1 rounded-lg shadow-md m-2" type="password" placeholder="Password">
     <button (click)="login()"
       class="w-30 bg-green-300 rounded-lg shadow-md m-2 p-2 border-1 border-gray-300 cursor-pointer">Login</button>
+    } @else {
+
     <button (click)="logout()"
       class="w-30 bg-red-300 rounded-lg shadow-md m-2 p-2 border-1  border-gray-300 cursor-pointer">Logud</button>
+    }
     <p>{{this.loginMessage()}}</p>
   </div>
 </div>
