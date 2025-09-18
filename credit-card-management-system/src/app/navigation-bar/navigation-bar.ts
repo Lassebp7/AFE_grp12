@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { TitleCasePipe, UpperCasePipe } from '@angular/common';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { routes } from '../app.routes';
 
 @Component({
   selector: 'app-navigation-bar',
-  imports: [RouterLink, UpperCasePipe],
+  imports: [RouterLink, RouterLinkActive],
   templateUrl: './navigation-bar.html',
 })
 export class NavigationBar {
