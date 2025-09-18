@@ -1,6 +1,6 @@
 <div class="flex flex-col items-center">
   <div class="w-[90vw] flex flex-col items-center">
-    <h1 class="font-bold text-2xl py-4">Login</h1>
+    <h1 class="text-4xl py-4">Login</h1>
     @if (!isAuth()) {
 
     <input [(ngModel)]="username" (keyup.enter)="login()" class="p-2 border-1 rounded-lg shadow-md m-2" type="text"
@@ -8,11 +8,11 @@
     <input [(ngModel)]="password" (keyup.enter)="login()" class="p-2 border-1 rounded-lg shadow-md m-2" type="password"
       placeholder="Password">
     <button (click)="login()"
-      class="w-30 bg-green-300 rounded-lg shadow-md m-2 p-2 border-1 border-gray-300 cursor-pointer">Login</button>
+      class="w-30 bg-green-300 rounded-lg shadow-md m-2 p-2 border-1 border-gray-300 cursor-pointer">Log In</button>
     } @else {
 
     <button (click)="logout()"
-      class="w-30 bg-red-300 rounded-lg shadow-md m-2 p-2 border-1  border-gray-300 cursor-pointer">Logud</button>
+      class="w-30 bg-red-300 rounded-lg shadow-md m-2 p-2 border-1  border-gray-300 cursor-pointer">Log Out</button>
     }
     @if (loginMessage()) {
     <p class="py-2">{{this.loginMessage()}}</p>
