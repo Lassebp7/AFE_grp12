@@ -24,7 +24,6 @@ export class AddTransactionComponent {
   getCreditCards() {
     this.creditCardService.getCreditCards().subscribe(data => {
       this.creditCards.set(data)
-      console.log(data)
     })
   }
 
@@ -56,9 +55,7 @@ export class AddTransactionComponent {
   })
 
   submit() {
-    console.log("Submitting transaction")
     if (this.transactionForm.invalid) {
-      console.log("Invalid form")
       this.transactionForm.markAllAsTouched()
       return
     }
@@ -75,12 +72,11 @@ export class AddTransactionComponent {
 
     this.transactionService.postTransaction(transaction).subscribe({
       next: (response) => {
-        console.log("Transaction added successfully", response)
         this.transactionAdded.emit(transaction)
         this.transactionForm.reset()
       },
       error: (error) => {
-        console.log("Error adding transaction:", error)
+        console.error("Error adding transaction:", error)
       }
     })
   }

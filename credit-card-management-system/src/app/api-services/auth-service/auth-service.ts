@@ -27,11 +27,9 @@ export class AuthService {
   }
 
   private isTokenExpired(token: string | null): boolean {
-    console.log(token);
     if (!token) return true;
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
-      console.log(payload);
       const currentTime = Math.floor(Date.now() / 1000);
       return payload.exp < currentTime;
     } catch {
@@ -47,7 +45,6 @@ export class AuthService {
     const token = localStorage.getItem(this.TOKEN_KEY);
 
     if (this.isTokenExpired(token)) {
-      console.log('token expired');
       return this.loginDefault().pipe(switchMap(() => of(localStorage.getItem(this.TOKEN_KEY))));
     }
 

@@ -22,7 +22,6 @@ export class Transactions {
     this.transactionService.getTransactions().subscribe(data => {
       this.transactions.set(data)
       this.filteredTransactions.set(data)
-      console.log(data)
     })
   }
 
@@ -30,12 +29,11 @@ export class Transactions {
     this.transactionService.deleteTransactions(transaction.uid)
       .subscribe({
         next: (response) => {
-          console.log('Deleted transaction succesfully')
           this.transactions.update(transactions => transactions.filter(t => t.uid !== transaction.uid))
           this.filteredTransactions.update(transactions => transactions.filter(t => t.uid !== transaction.uid))
         },
         error: (error) => {
-          console.log("Error deleting transaction:", error)
+          console.error("Error deleting transaction:", error)
         }
       })
   }
