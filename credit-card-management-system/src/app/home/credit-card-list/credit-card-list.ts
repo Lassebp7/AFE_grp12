@@ -3,10 +3,11 @@ import { CreditCardService } from '../../api-services/credit-card-service/credit
 import { CreditCardDetails } from './credit-card-item/credit-card-item/credit-card-details.component';
 import { TransactionService } from '../../api-services/transaction-service/transaction-service';
 import { CreditCard } from '../../models/credit-card';
+import {ExpirationPipe} from '../../pipes/expiration-pipe';
 
 @Component({
   selector: 'app-credit-card-list',
-  imports: [CreditCardDetails],
+  imports: [CreditCardDetails, ExpirationPipe],
   templateUrl: './credit-card-list.html',
 })
 export class CreditCardList {
