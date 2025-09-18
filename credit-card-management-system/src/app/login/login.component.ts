@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { AuthService } from '../api-services/auth-service/auth-service';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -11,7 +11,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class LoginComponent {
   private authService = inject(AuthService);
-  loginMessage: string = '';
+  loginMessage = signal('');
   private router = inject(Router);
   username = '';
   password = '';
@@ -19,16 +19,19 @@ export class LoginComponent {
   login() {
     this.authService.login(this.username, this.password).subscribe({
       next: () => {
-        this.loginMessage = 'Login successful';
-        this.router.navigate(['/']);
+        this.loginMessage.set('Login successful');
+        setTimeout(() => {
+          this.router.navigate(['/']);
+        }, 500);
       },
       error: (err) => {
-        this.loginMessage = `An error occured: ${err}`;
+        this.loginMessage.set(`An error occured: ${err}`);
         console.error(err);
       },
     });
   }
   logout() {
     this.authService.logout();
+    this.loginMessage.set('Successfully logged out.');
   }
 }

@@ -20,14 +20,16 @@ export class AuthService {
   private http = inject(HttpClient);
 
   isAuthenticated() {
-    const token = localStorage.getItem(this.TOKEN_KEY)
-    return this.isTokenExpired(token)
+    const token = localStorage.getItem(this.TOKEN_KEY);
+    return !this.isTokenExpired(token);
   }
 
   private isTokenExpired(token: string | null): boolean {
+    console.log(token);
     if (!token) return true;
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
+      console.log(payload);
       const currentTime = Math.floor(Date.now() / 1000);
       return payload.exp < currentTime;
     } catch {
@@ -55,13 +57,15 @@ export class AuthService {
   }
 
   login(username: string, password: string) {
-    return this.http.post(
-      `${this.baseUrl}/api/Login`,
-      { username, password },
-      {
-        responseType: 'text',
-      }
-    );
+    return this.http
+      .post(
+        `${this.baseUrl}/api/Login`,
+        { username, password },
+        {
+          responseType: 'text',
+        }
+      )
+      .pipe(tap((response) => this.setToken(response)));
   }
 
   loginDefault() {
