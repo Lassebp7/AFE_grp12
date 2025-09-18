@@ -8,18 +8,29 @@
 <div>
   <p>Transactions:</p>
   @if (transactions().length === 0) {
-    <p>No Transactions on card!</p>
+  <p>No Transactions on card!</p>
   }
-  @for (transaction of transactions(); track transaction) {
-    <div>
-      <div>
-        <span>UID: {{transaction.uid}}</span>
-        <span>{{transaction.transactionDate}}</span>
-      </div>
-      <div>
-        <span>Card Number: {{transaction.cardNumber}}</span>
-        <span>Amount: {{transaction.amount}} {{transaction.currencyCode}}</span>
-      </div>
-    </div>
-  }
+  <table class="w-full mt-4 border-collapse">
+    <thead>
+      <tr class="bg-gray-100">
+        <th class="p-2 text-left text-black border border-gray-300">Card number</th>
+        <th class="p-2 text-left text-black border border-gray-300">Amount</th>
+        <th class="p-2 text-left text-black border border-gray-300">Currency</th>
+        <th class="p-2 text-left text-black border border-gray-300">Comment</th>
+        <th class="p-2 text-left text-black border border-gray-300">Date</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      @for (transaction of transactions(); track transaction) {
+      <tr>
+        <td class="p-2 border border-gray-300">{{ transaction.cardNumber }}</td>
+        <td class="p-2 border border-gray-300">{{ transaction.amount }}</td>
+        <td class="p-2 border border-gray-300">{{ transaction.currencyCode }}</td>
+        <td class="p-2 border border-gray-300">{{ transaction.comment }}</td>
+        <td class="p-2 border border-gray-300">{{ transaction.transactionDate }}</td>
+      </tr>
+      }
+    </tbody>
+  </table>
 </div>
