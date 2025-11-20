@@ -20,7 +20,7 @@ export async function authenticatedFetch(
   };
 
   // Call the native fetch with the injected headers
-  return fetch(url, {
+  return fetch(process.env.BACKEND_URL + url, {
     method,
     ...options,
     headers,
