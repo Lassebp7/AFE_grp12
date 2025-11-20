@@ -1,13 +1,38 @@
-import React from 'react';
-import { Dumbbell, ArrowRight, Lock, Mail } from 'lucide-react';
-import Link from 'next/link';
+"use client";
+import { Dumbbell, ArrowRight, Lock, Mail, Loader2 } from "lucide-react";
+import { useFormStatus } from "react-dom";
+import { authenticate } from "./actions";
+import { useActionState } from "react";
+
+function LoginButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    <button
+      type="submit"
+      aria-disabled={pending}
+      className="group relative flex w-full cursor-pointer items-center justify-center gap-2 rounded-md bg-zinc-900 px-4 py-3 text-sm font-semibold text-white transition-all hover:bg-zinc-700 hover:ring-2 hover:ring-zinc-900 hover:ring-offset-2 dark:bg-white dark:text-black dark:hover:bg-zinc-200 dark:hover:ring-zinc-100 dark:ring-offset-black"
+    >
+      {pending ? (
+        <>
+          <Loader2 className="h-4 w-4 animate-spin" />
+          Signing in...
+        </>
+      ) : (
+        <>
+          Sign in
+          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+        </>
+      )}
+    </button>
+  );
+}
 
 export default function LoginPage() {
+  const [errorMessage, dispatch] = useActionState(authenticate, undefined);
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-zinc-50 p-6 font-sans dark:bg-black">
-
       <div className="w-full max-w-md space-y-8">
-
         {/* Brand Header */}
         <div className="flex flex-col items-center text-center">
           <div className="mb-4 rounded-xl bg-zinc-900 p-3 dark:bg-white">
@@ -22,13 +47,14 @@ export default function LoginPage() {
         </div>
 
         {/* Login Form */}
-        <form className="mt-8 space-y-6">
-
+        <form action={dispatch} className="mt-8 space-y-6">
           <div className="space-y-4">
-
             {/* Email Input */}
             <div className="space-y-2">
-              <label htmlFor="email" className="text-sm font-medium text-zinc-900 dark:text-zinc-300">
+              <label
+                htmlFor="email"
+                className="text-sm font-medium text-zinc-900 dark:text-zinc-300"
+              >
                 Email address
               </label>
               <div className="relative">
@@ -50,7 +76,10 @@ export default function LoginPage() {
             {/* Password Input */}
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <label htmlFor="password" className="text-sm font-medium text-zinc-900 dark:text-zinc-300">
+                <label
+                  htmlFor="password"
+                  className="text-sm font-medium text-zinc-900 dark:text-zinc-300"
+                >
                   Password
                 </label>
               </div>
@@ -69,20 +98,20 @@ export default function LoginPage() {
                 />
               </div>
             </div>
-
           </div>
 
           {/* Submit Button */}
-          <button
-            type="submit"
-            className="group relative flex w-full cursor-pointer items-center justify-center gap-2 rounded-md bg-zinc-900 px-4 py-3 text-sm font-semibold text-white transition-all hover:bg-zinc-700 hover:ring-2 hover:ring-zinc-900 hover:ring-offset-2 dark:bg-white dark:text-black dark:hover:bg-zinc-200 dark:hover:ring-zinc-100 dark:ring-offset-black"
-          >
-            Sign in
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </button>
+          <LoginButton />
 
+          {errorMessage && (
+            <div
+              aria-live="polite"
+              className="text-sm font-medium text-red-500"
+            >
+              {errorMessage}
+            </div>
+          )}
         </form>
-
       </div>
     </div>
   );

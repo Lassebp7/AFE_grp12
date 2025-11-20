@@ -91,7 +91,7 @@ export const authConfig = {
           return null;
         }
         const data = await response.json();
-        const jwt = data.rawjwt;
+        const jwt = data.jwt;
         const claims = decodeJwt(jwt);
 
         const user: User = {
