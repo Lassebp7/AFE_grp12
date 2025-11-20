@@ -34,7 +34,7 @@ export default async function CreateUserPage() {
         </div>
 
         {/* Form */}
-        <form className="space-y-6">
+        <form className="space-y-6" autoComplete='off'>
 
           {/* First Name & Last Name Row */}
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -73,6 +73,7 @@ export default async function CreateUserPage() {
               type="password"
               className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 dark:border-zinc-700 dark:bg-black dark:text-white"
               placeholder="••••••••"
+              autoComplete="new-password"
             />
           </div>
 
