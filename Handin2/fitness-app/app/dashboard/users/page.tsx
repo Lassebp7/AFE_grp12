@@ -1,18 +1,20 @@
-import React from 'react';
-import { Plus, User, ShieldAlert, Users } from 'lucide-react';
+import { Plus, ShieldAlert, User, Users } from 'lucide-react';
+import { getClientsByTrainer } from './actions';
+import { UserRoles } from '@/app/types';
 
 // This represents: app/dashboard/users/page.tsx
-export default function UsersListPage() {
+export default async function UsersListPage() {
   // --- SIMULATED AUTH ---
-  const currentUserRole = "TRAINER";
+  const currentUserRole: UserRoles = "PersonalTrainer";
 
   // --- DATA STATE ---
   // I've set this to empty [] so you can see the "No Clients" box.
   // Add items like [1, 2, 3] to see the list view again.
-  const clients = [1];
+  // const clients = await getClientsByTrainer();
+  const clients = []
 
   // --- SECURITY GUARD ---
-  if (currentUserRole === "MANAGER") {
+  if (currentUserRole === "Manager") {
     return (
       <div className="flex h-64 flex-col items-center justify-center space-y-4 text-center text-zinc-500">
         <ShieldAlert className="h-12 w-12 text-red-500" />

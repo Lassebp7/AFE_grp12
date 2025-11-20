@@ -1,12 +1,14 @@
 import NextAuth, { NextAuthConfig, DefaultSession, User } from "next-auth";
-import {} from "next-auth/jwt";
+import { } from "next-auth/jwt";
 import Credentials from "next-auth/providers/credentials";
 import { decodeJwt } from "jose";
+import { UserRoles } from "@/app/types";
 
 declare module "next-auth" {
   interface Session {
     user: {
-      role: string;
+      role: UserRoles;
+      id: string;
     } & DefaultSession["user"];
   }
 
@@ -65,6 +67,7 @@ export const authConfig = {
       if (token.Role) {
         session.user.role = token.Role as string;
       }
+      session.user.id = token.UserId as string;
       session.user.rawjwt = token.rawjwt;
       return session;
     },

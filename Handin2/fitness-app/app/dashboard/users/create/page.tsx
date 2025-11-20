@@ -1,12 +1,15 @@
 import React from 'react';
 import { UserPlus, Save } from 'lucide-react';
+import { UserRoles } from '@/app/types';
+import { auth } from '@/auth/auth.config';
 
 // This represents: app/dashboard/users/create/page.tsx
-export default function CreateUserPage() {
+export default async function CreateUserPage() {
   // --- SIMULATED AUTH ---
-  const currentUserRole = "MANAGER";
+  const session = await auth();
+  const currentUserRole: UserRoles | undefined = session?.user?.role;
 
-  const targetRole = currentUserRole === "MANAGER" ? "Personal Trainer" : "Client";
+  const targetRole = currentUserRole === "Manager" ? "Personal Trainer" : "Client";
 
   return (
     <div className="flex flex-col items-center justify-center p-6 font-sans">
@@ -23,7 +26,7 @@ export default function CreateUserPage() {
               Create New {targetRole}
             </h1>
             <p className="text-sm text-zinc-500 dark:text-zinc-400">
-              {currentUserRole === "MANAGER"
+              {currentUserRole === "Manager"
                 ? "Add a new trainer to your staff."
                 : "Onboard a new client to start their journey."}
             </p>

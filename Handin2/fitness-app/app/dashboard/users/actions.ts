@@ -1,8 +1,9 @@
-import { authenticatedFetch } from "@/utils/authFetch";
+import { User } from "@/app/types";
+import { get } from "@/utils/api";
 
-export async function getClientsByTrainer() {
+export async function getClientsByTrainer(): Promise<User[]> {
     try {
-        await authenticatedFetch// API call to fetch clients for a trainer
+        return await get("/Users/Clients");
     } catch (error) {
         throw error;
     }
