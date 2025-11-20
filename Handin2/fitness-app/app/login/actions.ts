@@ -2,6 +2,7 @@
 
 import { signIn } from "@/auth/auth.config";
 import { AuthError } from "next-auth";
+import { redirect } from "next/navigation";
 
 /**
  * Handles the user's login attempt using the Credentials provider.
@@ -11,8 +12,10 @@ export async function authenticate(
   formData: FormData
 ) {
   try {
-    await signIn("credentials", formData, {
-      redirectTo: "/",
+    await signIn("credentials", {
+      email: formData.get("email"),
+      password: formData.get("password"),
+      redirect: false,
     });
   } catch (error) {
     if (error instanceof AuthError) {
@@ -20,9 +23,10 @@ export async function authenticate(
         case "CredentialsSignin":
           return "Invalid credentials. Please check your email and password.";
         default:
-          return "An unexpected error occurred during sign in.";
+          return "Something went wrong...";
       }
     }
     throw error;
   }
+  redirect("/dashboard");
 }

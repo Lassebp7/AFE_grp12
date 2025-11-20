@@ -42,7 +42,7 @@ export const authConfig = {
 
       if (isPublicRoute) {
         if (isLoggedIn && nextUrl.pathname === "/login") {
-          return Response.redirect(new URL("/", nextUrl));
+          return Response.redirect(new URL("/dashboard", nextUrl));
         }
         return true;
       }
@@ -92,6 +92,7 @@ export const authConfig = {
         }
         const data = await response.json();
         const jwt = data.jwt;
+
         const claims = decodeJwt(jwt);
 
         const user: User = {
@@ -108,4 +109,5 @@ export const authConfig = {
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
+  secret: process.env.AUTH_SECRET,
 });
