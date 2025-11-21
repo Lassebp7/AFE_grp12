@@ -1,8 +1,8 @@
 import React from 'react';
 import { UserPlus, Save, ArrowLeft } from 'lucide-react';
 import { UserRoles } from '@/app/types';
-import { auth } from '@/auth/auth.config';
 import { createClient } from './actions';
+import { auth } from '@/auth/auth';
 
 export default async function CreateUserPage() {
   const session = await auth();

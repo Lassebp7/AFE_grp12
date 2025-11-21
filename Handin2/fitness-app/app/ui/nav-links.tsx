@@ -13,20 +13,20 @@ interface NavLinksProps {
 export function NavLinks({ role, onNavigate }: NavLinksProps) {
     const pathname = usePathname();
 
+    // Start with routes visible to everyone
     const routes = [
-        {
-            name: "Dashboard",
-            href: "/dashboard"
-        },
-        {
-            name: role === "Manager" ? "Add Trainer" : "Clients",
-            href: role === "Manager" ? "/dashboard/users/create" : "/dashboard/users",
-        },
-        {
-            name: "Workouts",
-            href: "/dashboard/workouts"
-        },
+        { name: "Dashboard", href: "/dashboard" },
+        { name: "Workouts", href: "/dashboard/workouts" }
     ];
+
+    // If Manager -> Show "Add Trainer"
+    // If Trainer -> Show "Clients"
+    // If Client  -> Show nothing
+    if (role === "Manager") {
+        routes.push({ name: "Add Trainer", href: "/dashboard/users/create" });
+    } else if (role === "PersonalTrainer") {
+        routes.push({ name: "Clients", href: "/dashboard/users" });
+    }
 
     return (
         <ul className="flex flex-row gap-1">
