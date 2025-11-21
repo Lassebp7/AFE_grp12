@@ -1,4 +1,4 @@
-import { NavBar } from "@/app/ui/nav";
+import { NavBar } from "../ui/nav-bar";
 
 export default function DashboardLayout({
   children,

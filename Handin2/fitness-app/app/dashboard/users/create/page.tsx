@@ -12,21 +12,21 @@ export default async function CreateUserPage() {
 
   // Clients should not access this page. Therefore no need check for client
   const targetRole = currentUserRole === "Manager" ? "Personal Trainer" : "Client";
-  const targetRoles = currentUserRole === "Manager" ? "Personal Trainers" : "Clients";
 
   return (
     <div className="flex flex-col items-center justify-center p-6 font-sans">
       <div className="w-full max-w-xl space-y-8">
 
-        <div className="mb-8">
+
+        {currentUserRole === "PersonalTrainer" && <div className="mb-8">
           <a
             href="/dashboard/users"
             className="group inline-flex items-center gap-2 text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-white"
           >
             <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
-            Back to {targetRoles.toLowerCase()}
+            Back to clients
           </a>
-        </div>
+        </div>}
 
         {/* Header */}
         <div className="flex items-center gap-4 border-b border-zinc-200 pb-6 dark:border-zinc-800">

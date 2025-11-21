@@ -1,18 +1,22 @@
-"use client";
+"use server";
 
 import React from 'react';
 import { Dumbbell, User } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
+import { UserRoles } from '../types';
+import { auth } from '@/auth/auth.config';
 
 // NOTE: In your real Next.js app, import Link from 'next/link';
 // and use <Link href="..."> instead of <a href="...">
 
-export function NavBar() {
+export async function Nav() {
   // --- SIMULATED AUTH STATE ---
   // Change this to "TRAINER" to see the link change to "Clients"
   // Change this to "MANAGER" to see the link change to "Add Trainer"
-  const currentUserRole = "Trainer";
+  // const currentUserRole = "Trainer";
+  const session = await auth();
+  const currentUserRole: UserRoles = session?.user?.role;
 
   const pathname = usePathname();
 
@@ -25,8 +29,8 @@ export function NavBar() {
       // --- CONDITIONAL NAVIGATION ---
       // 1. If Manager: The button is "Add Trainer" and skips the list view entirely.
       // 2. If Trainer: The button is "Clients" and goes to the list view.
-      name: currentUserRole === "MANAGER" ? "Add Trainer" : "Clients",
-      href: currentUserRole === "MANAGER" ? "/dashboard/users/create" : "/dashboard/users",
+      name: currentUserRole === "Manager" ? "Add Trainer" : "Clients",
+      href: currentUserRole === "Manager" ? "/dashboard/users/create" : "/dashboard/users",
     },
     {
       name: "Workouts",
