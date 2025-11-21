@@ -1,4 +1,4 @@
-export type UserRoles = "Client" | "PersonalTrainer" | "Manager";
+export type UserRoles = "Client" | "PersonalTrainer" | "Manager" | undefined;
 
 export interface User {
     userId: number;

@@ -1,19 +1,16 @@
 import { Plus, ShieldAlert, User, Users } from 'lucide-react';
 import { getClientsByTrainer } from './actions';
 import { UserRoles } from '@/app/types';
+import { auth } from '@/auth/auth.config';
 
 // This represents: app/dashboard/users/page.tsx
 export default async function UsersListPage() {
-  // --- SIMULATED AUTH ---
-  const currentUserRole: UserRoles = "PersonalTrainer";
+  const session = await auth();
+  const currentUserRole: UserRoles = session?.user?.role;
 
-  // --- DATA STATE ---
-  // I've set this to empty [] so you can see the "No Clients" box.
-  // Add items like [1, 2, 3] to see the list view again.
-  // const clients = await getClientsByTrainer();
-  const clients = []
+  const clients = await getClientsByTrainer();
 
-  // --- SECURITY GUARD ---
+  // Should never be used, as route guarding should prevent manager access
   if (currentUserRole === "Manager") {
     return (
       <div className="flex h-64 flex-col items-center justify-center space-y-4 text-center text-zinc-500">
@@ -69,13 +66,13 @@ export default async function UsersListPage() {
         // --- LIST VIEW ---
         <div className="grid gap-4">
           {clients.map((client) => (
-            <div key={client} className="flex items-center justify-between rounded-lg border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+            <div key={client.userId} className="flex items-center justify-between rounded-lg border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
               <div className="flex items-center gap-4">
                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-800">
                   <User className="h-5 w-5 text-zinc-500" />
                 </div>
                 <div>
-                  <p className="font-medium text-zinc-900 dark:text-white">Client Name {client}</p>
+                  <p className="font-medium text-zinc-900 dark:text-white">Client Name: {client.lastName}, {client.firstName}</p>
                 </div>
               </div>
             </div>

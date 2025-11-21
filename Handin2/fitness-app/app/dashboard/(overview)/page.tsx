@@ -1,11 +1,13 @@
 import React from 'react';
 import { User, Shield, LogOut } from 'lucide-react';
+import { auth } from '@/auth/auth.config';
 
-export default function Dashboard() {
+export default async function Dashboard() {
   // Placeholder data
+  const seesion = await auth();
   const userData = {
-    name: "Alex",
-    role: "Elite Athlete"
+    name: seesion?.user?.name,
+    role: seesion?.user?.role.split(/(?=[A-Z])/).filter(Boolean).join(' '),
   };
 
   return (

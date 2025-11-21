@@ -1,12 +1,13 @@
+"use server";
+
 import { User, UserRoles } from "@/app/types";
 import { post } from "@/utils/api";
 
-export async function createClient(formData: FormData) {
+export async function createClient(personalTrainerId: number, formData: FormData) {
     const firstName = formData.get("firstName") as string;
     const lastName = formData.get("lastName") as string;
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
-    const personalTrainerId = parseInt(formData.get("personalTrainerId") as string, 10); // NEEDS TO GET THE ACTUAL VALUE
 
     const newClient: User = {
         firstName,
