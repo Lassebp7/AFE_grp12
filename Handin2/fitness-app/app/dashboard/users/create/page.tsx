@@ -1,32 +1,36 @@
-import React from 'react';
-import { UserPlus, Save, ArrowLeft } from 'lucide-react';
-import { UserRoles } from '@/app/types';
-import { auth } from '@/auth/auth.config';
-import { createClient } from './actions';
+import React from "react";
+import { UserPlus, Save, ArrowLeft } from "lucide-react";
+import { UserRoles } from "@/app/types";
+import { auth } from "@/auth/auth";
+import { createClient } from "./actions";
 
 export default async function CreateUserPage() {
   const session = await auth();
   const currentUserRole: UserRoles = session?.user?.role;
 
-  const createClientWithTrainerId = createClient.bind(null, parseInt(session?.user?.id || '0', 10));
+  const createClientWithTrainerId = createClient.bind(
+    null,
+    parseInt(session?.user?.id || "0", 10)
+  );
 
   // Clients should not access this page. Therefore no need check for client
-  const targetRole = currentUserRole === "Manager" ? "Personal Trainer" : "Client";
+  const targetRole =
+    currentUserRole === "Manager" ? "Personal Trainer" : "Client";
 
   return (
     <div className="flex flex-col items-center justify-center p-6 font-sans">
       <div className="w-full max-w-xl space-y-8">
-
-
-        {currentUserRole === "PersonalTrainer" && <div className="mb-8">
-          <a
-            href="/dashboard/users"
-            className="group inline-flex items-center gap-2 text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-white"
-          >
-            <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
-            Back to clients
-          </a>
-        </div>}
+        {currentUserRole === "PersonalTrainer" && (
+          <div className="mb-8">
+            <a
+              href="/dashboard/users"
+              className="group inline-flex items-center gap-2 text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-white"
+            >
+              <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
+              Back to clients
+            </a>
+          </div>
+        )}
 
         {/* Header */}
         <div className="flex items-center gap-4 border-b border-zinc-200 pb-6 dark:border-zinc-800">
@@ -46,12 +50,17 @@ export default async function CreateUserPage() {
         </div>
 
         {/* Form */}
-        <form className="space-y-6" autoComplete='off' action={createClientWithTrainerId}>
-
+        <form
+          className="space-y-6"
+          autoComplete="off"
+          action={createClientWithTrainerId}
+        >
           {/* First Name & Last Name Row */}
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div className="space-y-2">
-              <label className="text-sm font-medium text-zinc-900 dark:text-zinc-300">First Name</label>
+              <label className="text-sm font-medium text-zinc-900 dark:text-zinc-300">
+                First Name
+              </label>
               <input
                 type="text"
                 name="firstName"
@@ -60,7 +69,9 @@ export default async function CreateUserPage() {
               />
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium text-zinc-900 dark:text-zinc-300">Last Name</label>
+              <label className="text-sm font-medium text-zinc-900 dark:text-zinc-300">
+                Last Name
+              </label>
               <input
                 type="text"
                 name="lastName"
@@ -72,7 +83,9 @@ export default async function CreateUserPage() {
 
           {/* Email Address */}
           <div className="space-y-2">
-            <label className="text-sm font-medium text-zinc-900 dark:text-zinc-300">Email Address</label>
+            <label className="text-sm font-medium text-zinc-900 dark:text-zinc-300">
+              Email Address
+            </label>
             <input
               type="email"
               name="email"
@@ -83,7 +96,9 @@ export default async function CreateUserPage() {
 
           {/* Password */}
           <div className="space-y-2">
-            <label className="text-sm font-medium text-zinc-900 dark:text-zinc-300">Password</label>
+            <label className="text-sm font-medium text-zinc-900 dark:text-zinc-300">
+              Password
+            </label>
             <input
               type="password"
               name="password"
@@ -102,7 +117,6 @@ export default async function CreateUserPage() {
             Create {targetRole}
           </button>
         </form>
-
       </div>
     </div>
   );

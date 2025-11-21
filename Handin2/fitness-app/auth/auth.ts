@@ -23,7 +23,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           .object({ email: z.email(), password: z.string().min(1) })
           .safeParse(credentials);
 
-        if (!parsed.success) return null; // Maybe some more error handling here
+        if (!parsed.success) return null;
 
         const res = await fetch(`${process.env.BACKEND_URL}/Users/login`, {
           method: "POST",

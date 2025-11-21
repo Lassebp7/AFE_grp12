@@ -1,8 +1,16 @@
 "use client";
 
-import React from 'react';
+import React from "react";
 // import Link from 'next/link'; // Uncomment in real app
-import { Plus, User, Dumbbell, Clock, ChevronRight, LayoutList } from 'lucide-react';
+import {
+  Plus,
+  User,
+  Dumbbell,
+  Clock,
+  ChevronRight,
+  LayoutList,
+} from "lucide-react";
+import Link from "next/link";
 
 export default function WorkoutListPage() {
   // --- SIMULATED AUTH ---
@@ -34,22 +42,22 @@ export default function WorkoutListPage() {
       duration: "30 min",
       clientName: "John Doe",
       exerciseCount: 4,
-    }
+    },
   ];
 
   // Filter logic
-  const displayedWorkouts = currentUserRole === "CLIENT"
-    ? workouts.slice(0, 1)
-    : workouts;
+  const displayedWorkouts =
+    currentUserRole === "TRAINER" ? workouts.slice(0, 1) : workouts;
 
   return (
     <div className="mx-auto max-w-5xl p-6 font-sans text-zinc-900 dark:text-white">
-
       {/* --- HEADER SECTION --- */}
       <div className="mb-8 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold">
-            {currentUserRole === "TRAINER" ? "All Workout Programs" : "My Workouts"}
+            {currentUserRole === "TRAINER"
+              ? "All Workout Programs"
+              : "My Workouts"}
           </h1>
           <p className="text-sm text-zinc-500 dark:text-zinc-400">
             {currentUserRole === "TRAINER"
@@ -60,13 +68,13 @@ export default function WorkoutListPage() {
 
         {/* Only Trainers can create new programs */}
         {currentUserRole === "TRAINER" && (
-          <a
+          <Link
             href="/dashboard/workouts/create"
             className="flex items-center gap-2 rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-700 dark:bg-white dark:text-black dark:hover:bg-zinc-200"
           >
             <Plus className="h-4 w-4" />
             Create Program
-          </a>
+          </Link>
         )}
       </div>
 
@@ -84,7 +92,6 @@ export default function WorkoutListPage() {
           </p>
         </div>
       ) : (
-
         // --- LIST GRID ---
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {displayedWorkouts.map((workout) => (
@@ -96,7 +103,6 @@ export default function WorkoutListPage() {
               <div>
                 {/* Top Meta Row */}
                 <div className="mb-4 flex items-center justify-between text-xs text-zinc-500 dark:text-zinc-400">
-
                   {/* TRAINER ONLY: Show which client this is for */}
                   {currentUserRole === "TRAINER" ? (
                     <div className="flex items-center gap-1 rounded-full bg-zinc-100 px-2 py-1 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300">
@@ -133,7 +139,6 @@ export default function WorkoutListPage() {
 
                 <ChevronRight className="h-5 w-5 text-zinc-300 transition-transform group-hover:translate-x-1 dark:text-zinc-600" />
               </div>
-
             </a>
           ))}
         </div>
