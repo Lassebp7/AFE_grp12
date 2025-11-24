@@ -1,4 +1,4 @@
-import { auth } from "@/auth/auth";
+import { auth } from "@/app/auth/auth";
 
 export async function authenticatedFetch(
   url: string,

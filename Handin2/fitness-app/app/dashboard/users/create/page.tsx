@@ -1,7 +1,7 @@
 import React from "react";
 import { UserPlus, Save, ArrowLeft } from "lucide-react";
 import { UserRoles } from "@/app/types";
-import { auth } from "@/auth/auth";
+import { auth } from "@/app/auth/auth";
 import { createClient } from "./actions";
 
 export default async function CreateUserPage() {

@@ -66,16 +66,16 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
     jwt({ token, user }) {
       if (user) {
-        token.Role = user.role;
-        token.UserId = user.id;
+        token.role = user.role;
+        token.userId = user.id;
         token.token = user.token;
         token.groupId = user.groupId;
       }
       return token;
     },
     session({ session, token }) {
-      session.user.id = token.id;
-      session.user.role = token.role as UserRoles;
+      session.user.id = token.UserId;
+      session.user.role = token.Role as UserRoles;
       session.user.groupId = token.groupId;
       session.user.token = token.token;
       return session;
