@@ -20,15 +20,13 @@ export type FormState = {
       errors: string[];
     };
   };
+  // Prev form data
   data?: {
     email?: string;
     password?: string;
   };
 };
 
-/**
- * Handles the user's login attempt using the Credentials provider.
- */
 export async function authenticate(prevState: FormState, formData: FormData) {
   const data = {
     email: formData.get("email"),

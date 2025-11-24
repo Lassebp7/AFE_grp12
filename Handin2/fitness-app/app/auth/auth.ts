@@ -3,6 +3,8 @@ import { decodeJwt } from "jose";
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { BackendJWTPayload } from "./auth-types";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { JWT } from "next-auth/jwt";
 
 const publicRoutes = ["/", "/login"];
 
@@ -67,8 +69,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       return token;
     },
     session({ session, token }) {
-      session.user.id = token.UserId;
-      session.user.role = token.Role as UserRoles;
+      session.user.id = token.id;
+      session.user.role = token.role;
       session.user.groupId = token.groupId;
       session.user.token = token.token;
       return session;
