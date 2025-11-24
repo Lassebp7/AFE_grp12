@@ -3,14 +3,50 @@
 import { signIn } from "@/app/auth/auth";
 import { AuthError } from "next-auth";
 import { redirect } from "next/navigation";
+import z from "zod";
+
+const LoginSchema = z.object({
+  email: z.email({ error: "Invalid email. Please enter a valid email." }),
+  password: z.string().min(1, { error: "Enter your password" }),
+});
+
+export type FormState = {
+  errors: string[];
+  properties?: {
+    email?: {
+      errors: string[];
+    };
+    password?: {
+      errors: string[];
+    };
+  };
+  data?: {
+    email?: string;
+    password?: string;
+  };
+};
 
 /**
  * Handles the user's login attempt using the Credentials provider.
  */
-export async function authenticate(
-  prevState: string | undefined,
-  formData: FormData
-) {
+export async function authenticate(prevState: FormState, formData: FormData) {
+  const data = {
+    email: formData.get("email"),
+    password: formData.get("password"),
+  };
+
+  const validatedFields = LoginSchema.safeParse(data);
+
+  if (!validatedFields.success) {
+    const errorData = z.treeifyError(validatedFields.error);
+
+    return {
+      errors: errorData.errors || [],
+      properties: errorData.properties,
+      data: data,
+    } as FormState;
+  }
+
   try {
     await signIn("credentials", {
       email: formData.get("email"),
@@ -21,9 +57,17 @@ export async function authenticate(
     if (error instanceof AuthError) {
       switch (error.type) {
         case "CredentialsSignin":
-          return "Invalid credentials. Please check your email and password.";
+          return {
+            errors: [
+              "Invalid credentials. Please check your email and password.",
+            ],
+            data: data,
+          } as FormState;
         default:
-          return "Something went wrong...";
+          return {
+            errors: ["Something went wrong..."],
+            data: data,
+          } as FormState;
       }
     }
     throw error;

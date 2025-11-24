@@ -2,7 +2,6 @@ import { UserRoles } from "@/app/types";
 import { decodeJwt } from "jose";
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import z from "zod";
 import { BackendJWTPayload } from "./auth-types";
 
 const publicRoutes = ["/", "/login"];
@@ -19,18 +18,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
 
       async authorize(credentials) {
-        const parsed = z
-          .object({ email: z.email(), password: z.string().min(1) })
-          .safeParse(credentials);
-
-        if (!parsed.success) return null;
-
         const res = await fetch(`${process.env.BACKEND_URL}/Users/login`, {
           method: "POST",
           headers: {
             "Content-type": "application/json",
           },
-          body: JSON.stringify(parsed.data),
+          body: JSON.stringify(credentials),
         });
         if (!res.ok) {
           return null;
