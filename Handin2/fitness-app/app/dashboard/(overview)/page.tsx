@@ -1,13 +1,50 @@
 "use client";
 import useUser from "@/app/hooks/use-user";
 import { SignoutButton } from "@/app/ui/button";
-import { Shield, User } from "lucide-react";
+import { Loader2, User } from "lucide-react";
+
+import ClientDashboard from "./client-dashboard";
+import ManagerDashboard from "./manager-dashboard";
+import TrainerDashboard from "./trainer-dashboard";
 
 export default function Dashboard() {
-  const user = useUser();
+  const { user, status } = useUser();
+
+  if (status === "loading") {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center dark:bg-black">
+        <Loader2 className="h-8 w-8 animate-spin text-zinc-500" />
+        <p className="mt-4 text-zinc-500 dark:text-zinc-400">
+          Loading user data...
+        </p>
+      </div>
+    );
+  }
+
+  // Determine which dashboard to render based on the user's role
+  let RoleSpecificContent;
+
+  switch (user.role) {
+    case "Client":
+      RoleSpecificContent = <ClientDashboard user={user} />;
+      break;
+    case "PersonalTrainer":
+      RoleSpecificContent = <TrainerDashboard user={user} />;
+      break;
+    case "Manager":
+      RoleSpecificContent = <ManagerDashboard />;
+      break;
+    default:
+      // unknown role
+      RoleSpecificContent = (
+        <p className="text-red-500">
+          Error: Unknown user role or unauthorized access.
+        </p>
+      );
+  }
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-zinc-50 p-6 font-sans dark:bg-black">
+    <div className="flex flex-col items-center bg-zinc-50 p-6 font-sans dark:bg-black">
       {/* Main Content Container */}
       <main className="flex w-full max-w-xl flex-col items-center text-center space-y-8">
         {/* Profile Icon */}
@@ -25,19 +62,10 @@ export default function Dashboard() {
           </p>
         </div>
 
-        {/* Role Display */}
-        <div className="flex items-center gap-2 rounded-lg border border-zinc-200 bg-white px-4 py-2 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
-          <Shield className="h-4 w-4 text-zinc-500" />
-          <span className="text-sm font-medium text-zinc-600 dark:text-zinc-300">
-            Your role is: {user.role}
-          </span>
-        </div>
+        <div className="w-full">{RoleSpecificContent}</div>
 
         {/* Divider */}
         <div className="w-full border-t border-zinc-200 dark:border-zinc-800" />
-
-        {/* Logout Action */}
-        <SignoutButton />
       </main>
     </div>
   );

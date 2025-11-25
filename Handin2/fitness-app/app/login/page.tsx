@@ -2,7 +2,9 @@
 import { Dumbbell, ArrowRight, Lock, Mail, Loader2 } from "lucide-react";
 import { useFormStatus } from "react-dom";
 import { authenticate, type FormState } from "./actions";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 function LoginButton() {
   const { pending } = useFormStatus();
@@ -29,6 +31,15 @@ function LoginButton() {
 }
 
 export default function LoginPage() {
+  const data = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (data.status === "authenticated") {
+      router.push("/dashboard");
+    }
+  }, [data.status, router]);
+
   const [formState, dispatch] = useActionState<FormState, FormData>(
     authenticate,
     {

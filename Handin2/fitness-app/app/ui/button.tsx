@@ -24,7 +24,7 @@ function SignoutButton() {
   return (
     <button
       onClick={() => signOut({ callbackUrl: "/login" })}
-      className="group flex items-center justify-center gap-2 rounded-full bg-zinc-900 px-8 py-3 text-sm font-semibold text-white transition-all cursor-pointer hover:bg-zinc-700 hover:ring-4 hover:ring-zinc-200 dark:bg-white dark:text-black dark:hover:bg-zinc-200 dark:hover:ring-zinc-800"
+      className="flex items-center justify-center gap-2 rounded-full bg-zinc-900 px-8 py-3 text-sm font-semibold cursor-pointer transition-all hover:bg-zinc-700 hover:ring-2 hover:ring-zinc-200 hover:text-zinc-900 text-zinc-400 dark:hover:bg-zinc-700 dark:hover:ring-zinc-800 dark:hover:text-zinc-100"
     >
       <LogOut className="h-4 w-4" />
       Log out

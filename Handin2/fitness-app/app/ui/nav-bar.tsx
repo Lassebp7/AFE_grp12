@@ -1,11 +1,13 @@
-import { NavLinks } from "./nav-links";
-import { Dumbbell, LogOut, User } from "lucide-react";
+"use client";
+import { Dumbbell } from "lucide-react";
 import Link from "next/link";
-import { auth } from "../auth/auth";
+import useUser from "../hooks/use-user";
+import { SignoutButton } from "./button";
+import { NavLinks } from "./nav-links";
 
-export async function NavBar() {
-  const session = await auth();
-  const currentUserRole = session?.user?.role || "Client";
+export function NavBar() {
+  const { user } = useUser();
+  const currentUserRole = user.role;
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-zinc-200 bg-white/80 backdrop-blur-md dark:border-zinc-800 dark:bg-black/80">
@@ -26,17 +28,7 @@ export async function NavBar() {
           <NavLinks role={currentUserRole} />
         </div>
 
-        <Link
-          href="/"
-          className="flex items-center justify-center gap-2 rounded-full bg-zinc-900 px-8 py-3 text-sm font-semibold text-white transition-all hover:bg-zinc-700 hover:ring-4 hover:ring-zinc-200 hover:text-zinc-900 text-zinc-400 dark:hover:bg-zinc-200 dark:hover:ring-zinc-800"
-        >
-          <LogOut className="h-4 w-4" />
-          Log out
-        </Link>
-
-        {/* <div className="rounded-full bg-zinc-100 p-2 dark:bg-zinc-800">
-                    <User className="h-4 w-4 text-zinc-600 dark:text-zinc-400" />
-                </div> */}
+        <SignoutButton />
       </div>
     </nav>
   );

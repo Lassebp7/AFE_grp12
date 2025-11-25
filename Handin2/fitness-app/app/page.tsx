@@ -1,14 +1,24 @@
-import Link from 'next/link';
-import React from 'react';
+"use client";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 // import { Dumbbell, ArrowRight } from 'lucide-react';
 
 export default function Home() {
+  const data = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (data.status === "authenticated") {
+      router.push("/dashboard");
+    }
+  }, [data.status, router]);
+
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-zinc-50 p-6 font-sans dark:bg-black">
-
       {/* Main Content Container - Constrained width for readability */}
       <main className="flex w-full max-w-2xl flex-col items-center text-center space-y-8">
-
         {/* Big Header */}
         <h1 className="text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-white sm:text-6xl">
           Welcome to the Fitness App
@@ -17,7 +27,8 @@ export default function Home() {
         {/* Descriptive Text Field */}
         <p className="text-lg leading-relaxed text-zinc-600 dark:text-zinc-400 max-w-lg">
           Start your journey today. Track your workouts, monitor your progress,
-          and reach your fitness goals with our intuitive platform designed for athletes of all levels.
+          and reach your fitness goals with our intuitive platform designed for
+          athletes of all levels.
         </p>
 
         {/* Action Button Area */}
@@ -30,14 +41,12 @@ export default function Home() {
             {/* <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" /> */}
           </Link>
         </div>
-
       </main>
 
       {/* Footer / Copyright (Optional, keeps it anchored) */}
       <footer className="absolute bottom-6 text-sm text-zinc-400">
         © 2025 Gruppe 12 Inc.
       </footer>
-
     </div>
   );
 }
