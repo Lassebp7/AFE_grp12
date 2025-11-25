@@ -1,7 +1,7 @@
 import { Plus, ShieldAlert, User, Users } from "lucide-react";
 import { getClientsByTrainer } from "./actions";
 import { UserRoles } from "@/app/types";
-import { auth } from "@/auth/auth";
+import { auth } from "@/app/auth/auth";
 
 // This represents: app/dashboard/users/page.tsx
 export default async function UsersListPage() {

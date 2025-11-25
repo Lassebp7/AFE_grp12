@@ -5,7 +5,7 @@ import { Dumbbell, User } from "lucide-react";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
 import { UserRoles } from "../types";
-import { auth } from "@/auth/auth";
+import { auth } from "@/app/auth/auth";
 
 // NOTE: In your real Next.js app, import Link from 'next/link';
 // and use <Link href="..."> instead of <a href="...">

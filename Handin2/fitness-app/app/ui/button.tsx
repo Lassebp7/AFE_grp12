@@ -1,10 +1,12 @@
 import clsx from "clsx";
+import { LogOut } from "lucide-react";
+import { signOut } from "next-auth/react";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
 }
 
-export function Button({ children, className, ...rest }: ButtonProps) {
+function Button({ children, className, ...rest }: ButtonProps) {
   return (
     <button
       {...rest}
@@ -17,3 +19,17 @@ export function Button({ children, className, ...rest }: ButtonProps) {
     </button>
   );
 }
+
+function SignoutButton() {
+  return (
+    <button
+      onClick={() => signOut({ callbackUrl: "/login" })}
+      className="group flex items-center justify-center gap-2 rounded-full bg-zinc-900 px-8 py-3 text-sm font-semibold text-white transition-all cursor-pointer hover:bg-zinc-700 hover:ring-4 hover:ring-zinc-200 dark:bg-white dark:text-black dark:hover:bg-zinc-200 dark:hover:ring-zinc-800"
+    >
+      <LogOut className="h-4 w-4" />
+      Log out
+    </button>
+  );
+}
+
+export { Button, SignoutButton };

@@ -1,7 +1,7 @@
 "use client";
 import { Dumbbell, ArrowRight, Lock, Mail, Loader2 } from "lucide-react";
 import { useFormStatus } from "react-dom";
-import { authenticate } from "./actions";
+import { authenticate, type FormState } from "./actions";
 import { useActionState } from "react";
 
 function LoginButton() {
@@ -29,7 +29,15 @@ function LoginButton() {
 }
 
 export default function LoginPage() {
-  const [errorMessage, dispatch] = useActionState(authenticate, undefined);
+  const [formState, dispatch] = useActionState<FormState, FormData>(
+    authenticate,
+    {
+      errors: [],
+    }
+  );
+  const emailError = formState?.properties?.email?.errors[0];
+  const passwordError = formState?.properties?.password?.errors[0];
+  const formError = formState?.errors[0];
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-zinc-50 p-6 font-sans dark:bg-black">
       <div className="w-full max-w-md space-y-8">
@@ -47,7 +55,7 @@ export default function LoginPage() {
         </div>
 
         {/* Login Form */}
-        <form action={dispatch} className="mt-8 space-y-6">
+        <form action={dispatch} className="mt-8 space-y-6" noValidate>
           <div className="space-y-4">
             {/* Email Input */}
             <div className="space-y-2">
@@ -66,11 +74,21 @@ export default function LoginPage() {
                   name="email"
                   type="email"
                   autoComplete="email"
-                  required
-                  className="w-full rounded-md border border-zinc-300 bg-white py-2 pl-10 pr-3 text-sm text-zinc-900 placeholder:text-zinc-400 transition-all focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 dark:border-zinc-700 dark:bg-black dark:text-white"
+                  defaultValue={formState.data?.email ?? ""}
+                  className={`w-full rounded-md border py-2 pl-10 pr-3 text-sm text-zinc-900 placeholder:text-zinc-400 transition-all focus:outline-none focus:ring-1 
+                    ${
+                      emailError
+                        ? "border-red-500 focus:border-red-500 focus:ring-red-500"
+                        : "border-zinc-300 focus:border-zinc-500 focus:ring-zinc-500 dark:border-zinc-700 dark:focus:ring-zinc-100"
+                    } dark:bg-black dark:text-white`}
                   placeholder="name@example.com"
                 />
               </div>
+              {emailError && (
+                <p className="text-xs text-red-500 mt-1" id="email-error">
+                  {emailError}
+                </p>
+              )}
             </div>
 
             {/* Password Input */}
@@ -92,23 +110,33 @@ export default function LoginPage() {
                   name="password"
                   type="password"
                   autoComplete="current-password"
-                  required
-                  className="w-full rounded-md border border-zinc-300 bg-white py-2 pl-10 pr-3 text-sm text-zinc-900 placeholder:text-zinc-400 transition-all focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 dark:border-zinc-700 dark:bg-black dark:text-white"
+                  defaultValue={formState.data?.password ?? ""}
+                  className={`w-full rounded-md border py-2 pl-10 pr-3 text-sm text-zinc-900 placeholder:text-zinc-400 transition-all focus:outline-none focus:ring-1
+                    ${
+                      passwordError
+                        ? "border-red-500 focus:border-red-500 focus:ring-red-500"
+                        : "border-zinc-300 focus:border-zinc-500 focus:ring-zinc-500 dark:border-zinc-700 dark:focus:ring-zinc-100"
+                    } dark:bg-black dark:text-white`}
                   placeholder="••••••••"
                 />
               </div>
+              {passwordError && (
+                <p className="text-xs text-red-500 mt-1" id="password-error">
+                  {passwordError}
+                </p>
+              )}
             </div>
           </div>
 
           {/* Submit Button */}
           <LoginButton />
 
-          {errorMessage && (
+          {formError && (
             <div
               aria-live="polite"
               className="text-sm font-medium text-red-500"
             >
-              {errorMessage}
+              {formError}
             </div>
           )}
         </form>

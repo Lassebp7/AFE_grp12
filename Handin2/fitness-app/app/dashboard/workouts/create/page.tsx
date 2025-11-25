@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from 'react';
-import { ArrowLeft, Save, Dumbbell, User } from 'lucide-react';
+import React, { useState } from "react";
+import { ArrowLeft, Save, Dumbbell, User } from "lucide-react";
+import Link from "next/link";
 // import Link from 'next/link'; // Uncomment in real app
 // import { useRouter } from 'next/navigation'; // Uncomment in real app
 
@@ -29,16 +30,15 @@ export default function CreateWorkoutPage() {
 
   return (
     <div className="mx-auto max-w-2xl p-6 font-sans text-zinc-900 dark:text-white">
-
       {/* --- NAV HEADER --- */}
       <div className="mb-8">
-        <a
+        <Link
           href="/dashboard/workouts"
           className="group inline-flex items-center gap-2 text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-white"
         >
           <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
           Back to Workouts
-        </a>
+        </Link>
       </div>
 
       {/* --- PAGE TITLE --- */}
@@ -56,10 +56,8 @@ export default function CreateWorkoutPage() {
 
       {/* --- FORM --- */}
       <form onSubmit={handleSubmit} className="space-y-8">
-
         {/* Row 1: Title & Client */}
         <div className="grid gap-6 md:grid-cols-2">
-
           {/* Program Title */}
           <div className="space-y-2">
             <label className="text-sm font-medium text-zinc-900 dark:text-zinc-300">
@@ -70,7 +68,9 @@ export default function CreateWorkoutPage() {
               required
               className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm font-sans transition-all focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 dark:border-zinc-700 dark:bg-black dark:text-white"
               placeholder="e.g. Summer Shred Phase 1"
-              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, title: e.target.value })
+              }
             />
           </div>
 
@@ -86,11 +86,15 @@ export default function CreateWorkoutPage() {
               <select
                 required
                 className="w-full appearance-none rounded-md border border-zinc-300 bg-white py-2 pl-10 pr-8 text-sm font-sans transition-all focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 dark:border-zinc-700 dark:bg-black dark:text-white"
-                onChange={(e) => setFormData({ ...formData, clientId: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, clientId: e.target.value })
+                }
                 defaultValue=""
               >
-                <option value="" disabled>Select a client...</option>
-                {clients.map(client => (
+                <option value="" disabled>
+                  Select a client...
+                </option>
+                {clients.map((client) => (
                   <option key={client.id} value={client.id}>
                     {client.name}
                   </option>
@@ -98,7 +102,19 @@ export default function CreateWorkoutPage() {
               </select>
               {/* Custom arrow styling since we used appearance-none */}
               <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-zinc-500">
-                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                <svg
+                  className="h-4 w-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M19 9l-7 7-7-7"
+                  ></path>
+                </svg>
               </div>
             </div>
           </div>
@@ -113,7 +129,9 @@ export default function CreateWorkoutPage() {
             rows={4}
             className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm font-sans transition-all focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 dark:border-zinc-700 dark:bg-black dark:text-white"
             placeholder="Describe the goal of this workout (e.g., 'Focus on slow eccentric movements, keep rest times short...')"
-            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+            onChange={(e) =>
+              setFormData({ ...formData, description: e.target.value })
+            }
           />
         </div>
 
@@ -127,7 +145,6 @@ export default function CreateWorkoutPage() {
             Create & Add Exercises
           </button>
         </div>
-
       </form>
     </div>
   );

@@ -2,8 +2,9 @@ import { UserRoles } from "@/app/types";
 import { decodeJwt } from "jose";
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import z from "zod";
 import { BackendJWTPayload } from "./auth-types";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { JWT } from "next-auth/jwt";
 
 const publicRoutes = ["/", "/login"];
 
@@ -19,18 +20,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
 
       async authorize(credentials) {
-        const parsed = z
-          .object({ email: z.email(), password: z.string().min(1) })
-          .safeParse(credentials);
-
-        if (!parsed.success) return null;
-
         const res = await fetch(`${process.env.BACKEND_URL}/Users/login`, {
           method: "POST",
           headers: {
             "Content-type": "application/json",
           },
-          body: JSON.stringify(parsed.data),
+          body: JSON.stringify(credentials),
         });
         if (!res.ok) {
           return null;
@@ -66,8 +61,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
     jwt({ token, user }) {
       if (user) {
-        token.Role = user.role;
-        token.UserId = user.id;
+        token.role = user.role;
+        token.userId = user.id;
         token.token = user.token;
         token.groupId = user.groupId;
       }
@@ -75,7 +70,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
     session({ session, token }) {
       session.user.id = token.id;
-      session.user.role = token.role as UserRoles;
+      session.user.role = token.role;
       session.user.groupId = token.groupId;
       session.user.token = token.token;
       return session;

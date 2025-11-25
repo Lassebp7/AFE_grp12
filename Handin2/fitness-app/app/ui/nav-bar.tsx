@@ -1,7 +1,7 @@
-import { auth } from "@/auth/auth";
 import { NavLinks } from "./nav-links";
 import { Dumbbell, LogOut, User } from "lucide-react";
 import Link from "next/link";
+import { auth } from "../auth/auth";
 
 export async function NavBar() {
   const session = await auth();
