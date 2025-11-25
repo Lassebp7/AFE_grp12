@@ -1,37 +1,61 @@
-import React from "react";
-import { UserPlus, Save, ArrowLeft } from "lucide-react";
-import { UserRoles } from "@/app/types";
-import { auth } from "@/app/auth/auth";
-import { createClient } from "./actions";
+"use client";
+import useUser from "@/app/hooks/use-user";
+import { Loader2, Save, UserPlus } from "lucide-react";
+import { useActionState } from "react";
+import { useFormStatus } from "react-dom";
+import { createTrainer, CreateTrainerFormState } from "./actions";
 
-export default async function CreateUserPage() {
-  const session = await auth();
-  const currentUserRole: UserRoles = session?.user?.role;
-
-  const createClientWithTrainerId = createClient.bind(
-    null,
-    parseInt(session?.user?.id || "0", 10)
-  );
-
-  // Clients should not access this page. Therefore no need check for client
-  const targetRole =
-    currentUserRole === "Manager" ? "Personal Trainer" : "Client";
+function SubmitButton() {
+  const { pending } = useFormStatus();
 
   return (
-    <div className="flex flex-col items-center justify-center p-6 font-sans">
-      <div className="w-full max-w-xl space-y-8">
-        {currentUserRole === "PersonalTrainer" && (
-          <div className="mb-8">
-            <a
-              href="/dashboard/users"
-              className="group inline-flex items-center gap-2 text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-white"
-            >
-              <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
-              Back to clients
-            </a>
-          </div>
-        )}
+    <button
+      type="submit"
+      aria-disabled={pending}
+      className="group relative flex w-full cursor-pointer items-center justify-center gap-2 rounded-md bg-zinc-900 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-zinc-700 dark:bg-white dark:text-black dark:hover:bg-zinc-200"
+      disabled={pending}
+    >
+      {pending ? (
+        <>
+          <Loader2 className="h-4 w-4 animate-spin" />
+          Saving...
+        </>
+      ) : (
+        <>
+          <Save className="h-4 w-4" />
+          Create Trainer
+        </>
+      )}
+    </button>
+  );
+}
 
+export default function CreateUserPage() {
+  const { user } = useUser();
+  const [formState, dispatch] = useActionState<
+    CreateTrainerFormState,
+    FormData
+  >(createTrainer, { errors: [] });
+
+  const firstNameError = formState?.properties?.firstName?.errors[0];
+  const lastNameError = formState?.properties?.lastName?.errors[0];
+  const emailError = formState?.properties?.email?.errors[0];
+  const passwordError = formState?.properties?.password?.errors[0];
+  const formError = formState?.errors[0]; // General form error
+
+  const InputClass = (hasError: string | undefined) =>
+    `w-full rounded-md border py-2 px-3 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-1 
+    ${
+      hasError
+        ? "border-red-500 focus:border-red-500 focus:ring-red-500 bg-red-50/dark:bg-red-900/20"
+        : "border-zinc-300 focus:border-zinc-500 focus:ring-zinc-500 dark:border-zinc-700 dark:bg-black dark:text-white"
+    } dark:bg-black dark:text-white`;
+
+  const isManager = user.role === "Manager";
+
+  return (
+    <div className="flex flex-col items-center justify-center p-6 font-sans bg-zinc-50 dark:bg-black">
+      <div className="w-full max-w-xl space-y-8 bg-white p-8 rounded-xl shadow-lg dark:bg-zinc-950">
         {/* Header */}
         <div className="flex items-center gap-4 border-b border-zinc-200 pb-6 dark:border-zinc-800">
           <div className="rounded-lg bg-zinc-100 p-3 dark:bg-zinc-900">
@@ -39,83 +63,126 @@ export default async function CreateUserPage() {
           </div>
           <div>
             <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">
-              Create New {targetRole}
+              Create New Trainer
             </h1>
             <p className="text-sm text-zinc-500 dark:text-zinc-400">
-              {currentUserRole === "Manager"
-                ? "Add a new trainer to your staff."
-                : "Onboard a new client to start their journey."}
+              {isManager
+                ? "Add a new personal trainer to your staff."
+                : "This form is for adding new trainers."}
             </p>
           </div>
         </div>
 
-        {/* Form */}
-        <form
-          className="space-y-6"
-          autoComplete="off"
-          action={createClientWithTrainerId}
-        >
+        {/* Form bound to the Server Action */}
+        <form action={dispatch} className="space-y-6" noValidate>
           {/* First Name & Last Name Row */}
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            {/* First Name */}
             <div className="space-y-2">
-              <label className="text-sm font-medium text-zinc-900 dark:text-zinc-300">
+              <label
+                htmlFor="firstName"
+                className="text-sm font-medium text-zinc-900 dark:text-zinc-300"
+              >
                 First Name
               </label>
               <input
+                id="firstName"
                 type="text"
                 name="firstName"
-                className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 dark:border-zinc-700 dark:bg-black dark:text-white"
-                placeholder="e.g. John"
+                defaultValue={formState.data?.firstName ?? ""}
+                className={InputClass(firstNameError)}
+                placeholder="e.g. Jane"
               />
+              {firstNameError && (
+                <p className="text-xs text-red-500 mt-1" id="firstName-error">
+                  {firstNameError}
+                </p>
+              )}
             </div>
+
+            {/* Last Name */}
             <div className="space-y-2">
-              <label className="text-sm font-medium text-zinc-900 dark:text-zinc-300">
+              <label
+                htmlFor="lastName"
+                className="text-sm font-medium text-zinc-900 dark:text-zinc-300"
+              >
                 Last Name
               </label>
               <input
+                id="lastName"
                 type="text"
                 name="lastName"
-                className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 dark:border-zinc-700 dark:bg-black dark:text-white"
+                defaultValue={formState.data?.lastName ?? ""}
+                className={InputClass(lastNameError)}
                 placeholder="e.g. Doe"
               />
+              {lastNameError && (
+                <p className="text-xs text-red-500 mt-1" id="lastName-error">
+                  {lastNameError}
+                </p>
+              )}
             </div>
           </div>
 
           {/* Email Address */}
           <div className="space-y-2">
-            <label className="text-sm font-medium text-zinc-900 dark:text-zinc-300">
+            <label
+              htmlFor="email"
+              className="text-sm font-medium text-zinc-900 dark:text-zinc-300"
+            >
               Email Address
             </label>
             <input
+              id="email"
               type="email"
               name="email"
-              className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 dark:border-zinc-700 dark:bg-black dark:text-white"
-              placeholder="e.g. john@example.com"
+              defaultValue={formState.data?.email ?? ""}
+              className={InputClass(emailError)}
+              placeholder="e.g. jane@trainer.com"
+              autoComplete="off" // Prevent browser saving the wrong password field
             />
+            {emailError && (
+              <p className="text-xs text-red-500 mt-1" id="email-error">
+                {emailError}
+              </p>
+            )}
           </div>
 
           {/* Password */}
           <div className="space-y-2">
-            <label className="text-sm font-medium text-zinc-900 dark:text-zinc-300">
+            <label
+              htmlFor="password"
+              className="text-sm font-medium text-zinc-900 dark:text-zinc-300"
+            >
               Password
             </label>
             <input
+              id="password"
               type="password"
               name="password"
-              className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 dark:border-zinc-700 dark:bg-black dark:text-white"
+              className={InputClass(passwordError)}
               placeholder="••••••••"
               autoComplete="new-password"
             />
+            {passwordError && (
+              <p className="text-xs text-red-500 mt-1" id="password-error">
+                {passwordError}
+              </p>
+            )}
           </div>
 
           {/* Submit Button */}
-          <button
-            type="submit" // Remember to change to type="submit" in your real app
-            className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-md bg-zinc-900 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-zinc-700 dark:bg-white dark:text-black dark:hover:bg-zinc-200"
-          >
-            <Save className="h-4 w-4" />
-            Create {targetRole}
-          </button>
+          <SubmitButton />
+
+          {/* Global Form Error (e.g., API failure) */}
+          {formError && (
+            <div
+              aria-live="polite"
+              className="text-sm font-medium text-red-500 p-3 border border-red-500 bg-red-50 dark:bg-red-950 rounded-lg"
+            >
+              {formError}
+            </div>
+          )}
         </form>
       </div>
     </div>

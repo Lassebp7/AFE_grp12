@@ -1,6 +1,5 @@
 "use client";
 import useUser from "@/app/hooks/use-user";
-import { SignoutButton } from "@/app/ui/button";
 import { Loader2, User } from "lucide-react";
 
 import ClientDashboard from "./client-dashboard";
