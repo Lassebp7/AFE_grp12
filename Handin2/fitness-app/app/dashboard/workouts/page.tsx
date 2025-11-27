@@ -1,12 +1,6 @@
 // import Link from 'next/link'; // Uncomment in real app
 import { auth } from "@/app/auth/auth";
-import {
-  ChevronRight,
-  Dumbbell,
-  LayoutList,
-  Plus,
-  User
-} from "lucide-react";
+import { ChevronRight, Dumbbell, LayoutList, Plus, User } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getWorkoutsByClientId, getWorkoutsByTrainerId } from "./actions";
@@ -18,7 +12,10 @@ export default async function WorkoutListPage() {
     redirect("/login");
   }
 
-  const workouts = session.user.role === "Client" ? await getWorkoutsByClientId(session.user.id) : await getWorkoutsByTrainerId();
+  const workouts =
+    session.user.role === "Client"
+      ? await getWorkoutsByClientId(session.user.id)
+      : await getWorkoutsByTrainerId();
 
   return (
     <div className="mx-auto max-w-5xl p-6 font-sans text-zinc-900 dark:text-white">

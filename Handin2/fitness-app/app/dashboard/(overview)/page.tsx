@@ -56,6 +56,11 @@ export default function Dashboard() {
           <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-4xl">
             Welcome, {user.name}!
           </h1>
+
+          <span className="inline-flex items-center rounded-full bg-indigo-100 px-3 py-1 text-sm font-medium text-indigo-700 dark:bg-indigo-900 dark:text-indigo-300">
+            {user.role}
+          </span>
+
           <p className="text-lg text-zinc-600 dark:text-zinc-400">
             You are now logged in.
           </p>
