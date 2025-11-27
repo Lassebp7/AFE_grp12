@@ -3,7 +3,7 @@ import useUser from "@/app/hooks/use-user";
 import { Loader2, Save, UserPlus } from "lucide-react";
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
-import { createTrainer, CreateUserFormState } from "./actions";
+import { createUser, CreateUserFormState } from "./actions";
 
 function SubmitButton({ isManager }: { isManager: boolean }) {
   const { pending } = useFormStatus();
@@ -32,9 +32,9 @@ function SubmitButton({ isManager }: { isManager: boolean }) {
 
 export default function CreateUserPage() {
   const { user } = useUser();
-  const boundCreateTrainer = createTrainer.bind(null, user); // Binds user to createTrainer, so we can pass it in
+  const boundCreateUser = createUser.bind(null, user); // Binds user to createTrainer, so we can pass it in and post depending on the current users role
   const [formState, dispatch] = useActionState<CreateUserFormState, FormData>(
-    boundCreateTrainer,
+    boundCreateUser,
     { errors: [] }
   );
 
@@ -46,9 +46,10 @@ export default function CreateUserPage() {
 
   const InputClass = (hasError: string | undefined) =>
     `w-full rounded-md border py-2 px-3 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-1 
-    ${hasError
-      ? "border-red-500 focus:border-red-500 focus:ring-red-500 bg-red-50/dark:bg-red-900/20"
-      : "border-zinc-300 focus:border-zinc-500 focus:ring-zinc-500 dark:border-zinc-700 dark:bg-black dark:text-white"
+    ${
+      hasError
+        ? "border-red-500 focus:border-red-500 focus:ring-red-500 bg-red-50/dark:bg-red-900/20"
+        : "border-zinc-300 focus:border-zinc-500 focus:ring-zinc-500 dark:border-zinc-700 dark:bg-black dark:text-white"
     } dark:bg-black dark:text-white`;
 
   const isManager = user.role === "Manager";

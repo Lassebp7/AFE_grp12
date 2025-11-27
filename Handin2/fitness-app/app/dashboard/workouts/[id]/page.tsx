@@ -13,7 +13,6 @@ export default async function WorkoutDetailsPage({
   params,
 }: WorkoutDetailsPageProps) {
   const { id } = await params;
-  console.log("ID:", id);
   const workoutData = await GetWorkoutDetails(id);
   const session = await auth();
   const role = session?.user.role;
@@ -56,10 +55,13 @@ export default async function WorkoutDetailsPage({
         {/* ACTION BUTTONS */}
         <div className="flex gap-3">
           {role === "PersonalTrainer" && (
-            <button className="flex items-center gap-2 rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-700 dark:bg-white dark:text-black dark:hover:bg-zinc-200">
+            <Link
+              href={`/dashboard/workouts/${id}/add`}
+              className="flex items-center gap-2 rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-700 dark:bg-white dark:text-black dark:hover:bg-zinc-200"
+            >
               <Plus className="h-4 w-4" />
               Add Exercise
-            </button>
+            </Link>
           )}
         </div>
       </div>

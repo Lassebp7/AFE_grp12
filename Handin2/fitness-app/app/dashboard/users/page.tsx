@@ -1,5 +1,3 @@
-"use cliennt";
-
 import { Plus, ShieldAlert, User, Users } from "lucide-react";
 import { getClientsByTrainer } from "./actions";
 import { UserRoles } from "@/app/types";

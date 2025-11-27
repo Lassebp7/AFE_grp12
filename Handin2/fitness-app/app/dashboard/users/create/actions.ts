@@ -46,7 +46,7 @@ export type CreateUserFormState = {
   };
 };
 
-export async function createTrainer(
+export async function createUser(
   currentUser: SessionUser,
   prevState: CreateUserFormState,
   formData: FormData
