@@ -15,3 +15,25 @@ export interface SessionUser {
   id: string | undefined;
   role: UserRoles;
 }
+
+export interface exercise {
+  exerciseId: number,
+  groupId: string,
+  name: string,
+  description: string,
+  sets: number,
+  repetitions: number,
+  time: string,
+  workoutProgramId: number,
+  personalTrainerId: number
+}
+
+export interface Workout {
+  workoutProgramId?: number,
+  groupId?: string,
+  name: string,
+  description: string,
+  exercises: exercise[],
+  personalTrainerId?: number,
+  clientId: number
+}
