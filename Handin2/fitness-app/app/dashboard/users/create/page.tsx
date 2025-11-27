@@ -3,9 +3,9 @@ import useUser from "@/app/hooks/use-user";
 import { Loader2, Save, UserPlus } from "lucide-react";
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
-import { createTrainer, CreateTrainerFormState } from "./actions";
+import { createTrainer, CreateUserFormState } from "./actions";
 
-function SubmitButton() {
+function SubmitButton({ isManager }: { isManager: boolean }) {
   const { pending } = useFormStatus();
 
   return (
@@ -23,7 +23,7 @@ function SubmitButton() {
       ) : (
         <>
           <Save className="h-4 w-4" />
-          Create Trainer
+          {isManager ? "Create Trainer" : "Create Client"}
         </>
       )}
     </button>
@@ -32,10 +32,11 @@ function SubmitButton() {
 
 export default function CreateUserPage() {
   const { user } = useUser();
-  const [formState, dispatch] = useActionState<
-    CreateTrainerFormState,
-    FormData
-  >(createTrainer, { errors: [] });
+  const boundCreateTrainer = createTrainer.bind(null, user); // Binds user to createTrainer, so we can pass it in
+  const [formState, dispatch] = useActionState<CreateUserFormState, FormData>(
+    boundCreateTrainer,
+    { errors: [] }
+  );
 
   const firstNameError = formState?.properties?.firstName?.errors[0];
   const lastNameError = formState?.properties?.lastName?.errors[0];
@@ -63,12 +64,12 @@ export default function CreateUserPage() {
           </div>
           <div>
             <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">
-              Create New Trainer
+              {isManager ? "Create New Trainer" : "Create new Client"}
             </h1>
             <p className="text-sm text-zinc-500 dark:text-zinc-400">
               {isManager
                 ? "Add a new personal trainer to your staff."
-                : "This form is for adding new trainers."}
+                : "Add a client to access your workouts."}
             </p>
           </div>
         </div>
@@ -172,9 +173,31 @@ export default function CreateUserPage() {
           </div>
 
           {/* Submit Button */}
-          <SubmitButton />
+          <SubmitButton isManager={isManager} />
 
           {/* Global Form Error (e.g., API failure) */}
+          {formState.success && (
+            <div
+              aria-live="polite"
+              className="flex flex-col items-center text-sm font-medium text-green-300 p-3 border border-green-300 bg-green-50 dark:bg-green-950 rounded-lg"
+            >
+              <p>
+                {user.role === "Manager"
+                  ? "Personal Trainer created Successfully!"
+                  : "Client created Successfully!"}
+              </p>
+            </div>
+          )}
+
+          {formState.success == false && (
+            <div
+              aria-live="polite"
+              className="flex flex-col items-center text-sm font-medium text-red-500 p-3 border border-red-500 bg-red-50 dark:bg-red-950 rounded-lg"
+            >
+              <p>Something went wrong...</p>
+            </div>
+          )}
+
           {formError && (
             <div
               aria-live="polite"
