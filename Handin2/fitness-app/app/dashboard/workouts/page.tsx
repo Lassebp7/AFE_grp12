@@ -24,8 +24,6 @@ export default async function WorkoutListPage() {
 
   const workouts = session.user.role === "Client" ? await getWorkoutsByClientId(session.user.id) : await getWorkoutsByTrainerId();
 
-  const userRole = "TRAINER"; // Change this to "CLIENT" to test the other view
-
   return (
     <div className="mx-auto max-w-5xl p-6 font-sans text-zinc-900 dark:text-white">
       {/* --- HEADER SECTION --- */}
