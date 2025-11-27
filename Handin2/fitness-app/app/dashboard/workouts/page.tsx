@@ -1,16 +1,7 @@
 export const dynamic = "force-dynamic";
 
-// import Link from 'next/link'; // Uncomment in real app
 import { auth } from "@/app/auth/auth";
-import {
-  ArrowRight,
-  ArrowUpRight,
-  ChevronRight,
-  Dumbbell,
-  LayoutList,
-  Plus,
-  User
-} from "lucide-react";
+import { ArrowRight, Dumbbell, LayoutList, Plus, User } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getWorkoutsByClientId, getWorkoutsByTrainerId } from "./actions";
@@ -22,7 +13,10 @@ export default async function WorkoutListPage() {
     redirect("/login");
   }
 
-  const workouts = session.user.role === "Client" ? await getWorkoutsByClientId(session.user.id) : await getWorkoutsByTrainerId();
+  const workouts =
+    session.user.role === "Client"
+      ? await getWorkoutsByClientId(session.user.id)
+      : await getWorkoutsByTrainerId();
 
   return (
     <div className="mx-auto max-w-5xl p-6 font-sans text-zinc-900 dark:text-white">
@@ -66,11 +60,13 @@ export default async function WorkoutListPage() {
       ) : (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {workouts.map((workout) => {
-            const counterpartLabel = session.user.role === "PersonalTrainer" ? "Client" : "Trainer";
+            const counterpartLabel =
+              session.user.role === "PersonalTrainer" ? "Client" : "Trainer";
 
-            const counterpartValue = session.user.role === "PersonalTrainer"
-              ? workout.clientId
-              : workout.personalTrainerId;
+            const counterpartValue =
+              session.user.role === "PersonalTrainer"
+                ? workout.clientId
+                : workout.personalTrainerId;
 
             return (
               <Link
@@ -98,7 +94,6 @@ export default async function WorkoutListPage() {
                 <div className="mx-6 border-t border-zinc-200 dark:border-zinc-700/50" />
 
                 <div className="mt-auto flex items-center justify-between border-zinc-100 px-6 py-4 dark:border-zinc-800">
-
                   <div className="flex items-center gap-2 text-sm font-medium text-zinc-600 dark:text-zinc-400">
                     <div className="flex items-center gap-1.5">
                       <Dumbbell className="h-4 w-4 text-zinc-400" />
