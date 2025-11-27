@@ -18,7 +18,7 @@ export default async function CreateWorkoutPage() {
 
   return (
     <div className="mx-auto max-w-2xl p-6 font-sans text-zinc-900 dark:text-white">
-      {/* --- NAV HEADER --- */}
+      {/* nav header */}
       <div className="mb-8">
         <Link
           href="/dashboard/workouts"
@@ -29,7 +29,7 @@ export default async function CreateWorkoutPage() {
         </Link>
       </div>
 
-      {/* --- PAGE TITLE --- */}
+      {/* page title */}
       <div className="mb-10 flex items-center gap-4 border-b border-zinc-200 pb-6 dark:border-zinc-800">
         <div className="rounded-lg bg-zinc-100 p-3 dark:bg-zinc-900">
           <Dumbbell className="h-6 w-6 text-zinc-900 dark:text-white" />
@@ -42,7 +42,7 @@ export default async function CreateWorkoutPage() {
         </div>
       </div>
 
-      {/* --- FORM --- */}
+      {/* form */}
       <CreateWorkoutForm clients={clients} personalTrainerId={sessions.user.id} />
 
     </div>

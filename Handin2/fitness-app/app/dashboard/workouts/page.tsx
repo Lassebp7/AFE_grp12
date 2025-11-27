@@ -26,7 +26,6 @@ export default async function WorkoutListPage() {
 
   return (
     <div className="mx-auto max-w-5xl p-6 font-sans text-zinc-900 dark:text-white">
-      {/* --- HEADER SECTION --- */}
       <div className="mb-8 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold">
@@ -41,7 +40,6 @@ export default async function WorkoutListPage() {
           </p>
         </div>
 
-        {/* Only Trainers can create new programs */}
         {session.user.role === "PersonalTrainer" && (
           <Link
             href="/dashboard/workouts/create"
@@ -99,7 +97,6 @@ export default async function WorkoutListPage() {
 
                 <div className="mx-6 border-t border-zinc-200 dark:border-zinc-700/50" />
 
-                {/* Card footer */}
                 <div className="mt-auto flex items-center justify-between border-zinc-100 px-6 py-4 dark:border-zinc-800">
 
                   <div className="flex items-center gap-2 text-sm font-medium text-zinc-600 dark:text-zinc-400">

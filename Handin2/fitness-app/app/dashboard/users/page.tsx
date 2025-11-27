@@ -5,7 +5,6 @@ import { getClientsByTrainer } from "./actions";
 import { UserRoles } from "@/app/types";
 import { auth } from "@/app/auth/auth";
 
-// This represents: app/dashboard/users/page.tsx
 export default async function UsersListPage() {
   const session = await auth();
   const currentUserRole: UserRoles = session?.user?.role;
@@ -45,9 +44,8 @@ export default async function UsersListPage() {
         )}
       </div>
 
-      {/* CONDITIONAL RENDERING */}
+      {/* contional rendering */}
       {clients.length === 0 ? (
-        // --- EMPTY STATE BOX ---
         <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-zinc-300 py-16 text-center dark:border-zinc-800">
           <div className="mb-4 rounded-full bg-zinc-100 p-4 dark:bg-zinc-900">
             <Users className="h-8 w-8 text-zinc-400" />
@@ -68,7 +66,7 @@ export default async function UsersListPage() {
           </a>
         </div>
       ) : (
-        // --- LIST VIEW ---
+        // list view
         <div className="grid gap-4">
           {clients.map((client) => (
             <div
