@@ -1,27 +1,27 @@
 "use server";
 
-import { User } from "@/app/types";
+import { SessionUser } from "@/app/types";
 import { post } from "@/utils/api";
-import { redirect } from "next/navigation";
-import z, { string } from "zod";
+import z from "zod";
 
-const createTrainerSchema = z.object({
+const createUserSchema = z.object({
   firstName: z.string().min(1, { error: "Enter your first name" }),
   lastName: z.string().min(1, { error: "Enter your last name" }),
   email: z.email({ error: "Invalid email. Please enter a valid email." }),
   password: z.string().min(1, { error: "Enter your password" }),
 });
 
-interface CreateTrainerPayload {
+interface CreateUserPayload {
   firstName: string;
   lastName: string;
   email: string;
   password: string;
-  personalTrainerId: null;
-  accountType: "PersonalTrainer";
+  personalTrainerId: number | null;
+  accountType: "PersonalTrainer" | "Client";
 }
 
-export type CreateTrainerFormState = {
+export type CreateUserFormState = {
+  success?: boolean;
   errors: string[];
   properties?: {
     firstName?: {
@@ -46,32 +46,11 @@ export type CreateTrainerFormState = {
   };
 };
 
-export async function createClient(
-  personalTrainerId: number,
-  formData: FormData
-) {
-  const firstName = formData.get("firstName") as string;
-  const lastName = formData.get("lastName") as string;
-  const email = formData.get("email") as string;
-  const password = formData.get("password") as string;
-
-  const newClient: User = {
-    firstName,
-    lastName,
-    email,
-    password,
-    personalTrainerId,
-    accountType: "Client",
-    userId: 0,
-  };
-
-  await post<User>("/Users", newClient);
-}
-
 export async function createTrainer(
-  prevState: CreateTrainerFormState,
+  currentUser: SessionUser,
+  prevState: CreateUserFormState,
   formData: FormData
-): Promise<CreateTrainerFormState> {
+): Promise<CreateUserFormState> {
   const data = {
     firstName: formData.get("firstName"),
     lastName: formData.get("lastName"),
@@ -79,7 +58,7 @@ export async function createTrainer(
     password: formData.get("password"),
   };
 
-  const result = createTrainerSchema.safeParse(data);
+  const result = createUserSchema.safeParse(data);
 
   if (!result.success) {
     const errorData = z.treeifyError(result.error);
@@ -88,17 +67,34 @@ export async function createTrainer(
       errors: errorData.errors || [],
       properties: errorData.properties,
       data: data,
-    } as CreateTrainerFormState;
+    } as CreateUserFormState;
   }
 
-  const payload: CreateTrainerPayload = {
-    ...result.data,
-    personalTrainerId: null,
-    accountType: "PersonalTrainer",
-  };
+  let payload: CreateUserPayload;
+  // Manager, create personal trainer
+  if (currentUser.role === "Manager") {
+    payload = {
+      ...result.data,
+      personalTrainerId: null,
+      accountType: "PersonalTrainer",
+    };
+  } // Personal trainer, create client
+  else {
+    payload = {
+      ...result.data,
+      personalTrainerId: Number(currentUser.id) ?? 0,
+      accountType: "Client",
+    };
+  }
 
   try {
-    await post<CreateTrainerPayload>("/Users", payload);
+    console.log(payload);
+    await post<CreateUserPayload>("/Users", payload);
+
+    return {
+      success: true,
+      errors: [],
+    };
   } catch (error) {
     console.error("API Error during trainer creation:", error);
     const errorMessage =
@@ -107,6 +103,7 @@ export async function createTrainer(
         : "An unexpected error occurred during creation. Please try again.";
 
     return {
+      success: false,
       errors: [errorMessage],
       data: {
         firstName: data.firstName as string,
@@ -115,5 +112,4 @@ export async function createTrainer(
       },
     };
   }
-  redirect("/dashboard");
 }
