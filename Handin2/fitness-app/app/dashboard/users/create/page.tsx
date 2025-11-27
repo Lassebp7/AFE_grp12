@@ -46,10 +46,9 @@ export default function CreateUserPage() {
 
   const InputClass = (hasError: string | undefined) =>
     `w-full rounded-md border py-2 px-3 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-1 
-    ${
-      hasError
-        ? "border-red-500 focus:border-red-500 focus:ring-red-500 bg-red-50/dark:bg-red-900/20"
-        : "border-zinc-300 focus:border-zinc-500 focus:ring-zinc-500 dark:border-zinc-700 dark:bg-black dark:text-white"
+    ${hasError
+      ? "border-red-500 focus:border-red-500 focus:ring-red-500 bg-red-50/dark:bg-red-900/20"
+      : "border-zinc-300 focus:border-zinc-500 focus:ring-zinc-500 dark:border-zinc-700 dark:bg-black dark:text-white"
     } dark:bg-black dark:text-white`;
 
   const isManager = user.role === "Manager";
@@ -162,7 +161,7 @@ export default function CreateUserPage() {
               type="password"
               name="password"
               className={InputClass(passwordError)}
-              placeholder="••••••••"
+              placeholder="Create a strong password"
               autoComplete="new-password"
             />
             {passwordError && (
