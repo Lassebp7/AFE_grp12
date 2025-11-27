@@ -1,3 +1,5 @@
+"use server"
+
 import { auth } from "@/app/auth/auth";
 
 export async function authFetch(
