@@ -1,4 +1,4 @@
-"use server"
+"use server";
 
 import { auth } from "@/app/auth/auth";
 
@@ -45,11 +45,11 @@ export async function get<T>(
   return response.json() as Promise<T>;
 }
 
-export async function post<T>(
+export async function post<T, R = null>(
   url: string,
   body: T,
   options?: Omit<RequestInit, "method" | "body">
-): Promise<T> {
+): Promise<R> {
   const response = await authFetch(url, "POST", {
     ...options,
     body: JSON.stringify(body),
@@ -61,7 +61,14 @@ export async function post<T>(
     );
   }
 
-  return response.json() as Promise<T>;
+  const contentType = response.headers.get("content-type");
+  if (contentType && contentType.includes("application/json")) {
+    // If the server returns JSON, parse it as type R
+    return response.json() as Promise<R>;
+  }
+
+  // if nothing, reutrn null
+  return {} as Promise<R>;
 }
 
 export async function put<T>(

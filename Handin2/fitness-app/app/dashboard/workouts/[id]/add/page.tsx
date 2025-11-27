@@ -14,9 +14,9 @@ export default async function AddExercisePage({ params }: AddProps) {
   const role = session?.user.role;
 
   if (role !== "PersonalTrainer") {
-    // If unauthorized, redirect them immediately on the server
     redirect("/dashboard");
   }
 
+  // Use a component wrapper to keep this page on 'use server' implicitely
   return <CreateExerciseForm workoutId={id} />;
 }

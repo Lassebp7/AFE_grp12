@@ -12,25 +12,32 @@ interface CreateExercisePayload {
   time: string | null;
 }
 
-const createExerciseSchema = z.object({
-  name: z
-    .string()
-    .min(3, { error: "Exercise name must be at least 3 characters." }),
-  description: z
-    .string()
-    .min(3, { error: "Description must be at least 3 characters." }),
-  sets: z
-    .number()
-    .int({ error: "Set count must be a whole number." })
-    .positive({ error: "Set count must be positive." }),
-  repetitions: z
-    .number()
-    .int({ error: "Repetition count must be a whole number." })
-    .min(0, { error: "Repetition count must be above 0." })
-    .optional()
-    .nullable(),
-  time: z.string().optional().nullable(),
-});
+const createExerciseSchema = z
+  .object({
+    name: z
+      .string()
+      .min(3, { error: "Exercise name must be at least 3 characters." }),
+    description: z
+      .string()
+      .min(3, { error: "Description must be at least 3 characters." }),
+    sets: z.coerce
+      .number({ error: "Set count must be a number" })
+      .int({ error: "Set count must be a whole number." })
+      .positive({ error: "Set count must be positive." }),
+    repetitions: z.coerce
+      .number({ error: "Repetition count must be a number." })
+      .int({ error: "Repetition count must be a whole number." })
+      .min(0, { error: "Repetition count must be above 0." })
+      .optional()
+      .nullable(),
+    time: z.string().optional().nullable(),
+  })
+  .refine((d) => !!d.repetitions !== !!d.time, {
+    message: "Specify either repetitions or time, but not both.",
+    // Set the path to the fields that might be missing one or the other.
+    // If both are missing, the path will point to 'repetitions' for the error display.
+    path: ["repetitions"],
+  });
 
 export type CreateExerciseFormState = {
   success?: boolean;

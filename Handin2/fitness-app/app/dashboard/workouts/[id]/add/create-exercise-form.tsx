@@ -1,19 +1,18 @@
 "use client";
 
 import {
-  Save,
-  Loader2,
-  Dumbbell,
-  Clock,
-  Repeat,
   ArrowLeft,
+  Clock,
+  Dumbbell,
+  Loader2,
+  Repeat,
+  Save,
 } from "lucide-react";
+import Link from "next/link";
 import { useActionState, useState } from "react";
 import { useFormStatus } from "react-dom";
-import Link from "next/link";
 import { createExercise, CreateExerciseFormState } from "./actions";
 
-// Reusable Submit Button component to show pending state
 function SubmitButton() {
   const { pending } = useFormStatus();
 
@@ -44,17 +43,16 @@ const InputClass = (hasError: string | undefined) =>
   `w-full rounded-md border py-2 px-3 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-1 
   ${
     hasError
-      ? "border-red-500 focus:border-red-500 focus:ring-red-500 bg-red-50 dark:bg-red-900/20"
+      ? "border-red-500 focus:border-red-500 focus:ring-red-500 bg-red-50 dark:bg-red-900/20 dark:text-white"
       : "border-zinc-300 focus:border-zinc-500 focus:ring-zinc-500 dark:border-zinc-700 dark:bg-zinc-900 dark:text-white"
   }`;
 
-// Main Client Component
 export default function CreateExerciseForm({
   workoutId,
 }: {
   workoutId: string;
 }) {
-  // Bind the workoutId to the Server Action
+  // Bind the workoutId to the Server Action, so we can access it in createExercise
   const boundCreateExercise = createExercise.bind(null, workoutId);
 
   const initialState: CreateExerciseFormState = { errors: [] };
@@ -63,12 +61,17 @@ export default function CreateExerciseForm({
     FormData
   >(boundCreateExercise, initialState);
 
+  // Preventing bug with some default behaviour on radio buttons
+  const defaultType =
+    (formState.data?.time ?? null) !== null &&
+    (formState.data?.time ?? "") !== "" &&
+    (formState.data?.repetitions ?? null) === null
+      ? "time"
+      : "reps";
+
   // State for the Reps/Time radio toggle
   const [exerciseType, setExerciseType] = useState<"reps" | "time">(
-    formState.data?.repetitions !== null &&
-      formState.data?.repetitions !== undefined
-      ? "reps"
-      : "time"
+    defaultType
   );
 
   // Error Extraction (simplified for clarity)
@@ -116,7 +119,7 @@ export default function CreateExerciseForm({
               htmlFor="name"
               className="text-sm font-medium text-zinc-900 dark:text-zinc-300"
             >
-              Exercise Name
+              Exercise
             </label>
             <input
               id="name"
@@ -137,7 +140,7 @@ export default function CreateExerciseForm({
               htmlFor="description"
               className="text-sm font-medium text-zinc-900 dark:text-zinc-300"
             >
-              Description / Instructions
+              Description
             </label>
             <textarea
               id="description"
@@ -164,7 +167,7 @@ export default function CreateExerciseForm({
               id="sets"
               type="number"
               name="sets"
-              defaultValue={formState.data?.sets ?? 4}
+              defaultValue={formState.data?.sets ?? ""}
               className={InputClass(setsError)}
               placeholder="e.g. 4"
             />
@@ -234,7 +237,7 @@ export default function CreateExerciseForm({
                   id="repetitions"
                   type="number"
                   name="repetitions"
-                  defaultValue={formState.data?.repetitions ?? 12}
+                  defaultValue={formState.data?.repetitions ?? ""}
                   className={InputClass(repetitionsError)}
                   placeholder="e.g. 12"
                 />
@@ -256,7 +259,7 @@ export default function CreateExerciseForm({
                   id="time"
                   type="text"
                   name="time"
-                  defaultValue={formState.data?.time ?? "45s"}
+                  defaultValue={formState.data?.time ?? ""}
                   className={InputClass(timeError)}
                   placeholder="e.g. 45s"
                 />
