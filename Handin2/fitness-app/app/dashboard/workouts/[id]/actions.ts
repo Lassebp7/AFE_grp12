@@ -5,5 +5,5 @@ import { get } from "@/utils/api";
 
 export async function GetWorkoutDetails(id: string) {
   console.log("Getting workout id: ", id);
-  return await get<Workout>(`/api/WorkoutPrograms/${id}`);
+  return await get<Workout>(`/WorkoutPrograms/${id}`);
 }

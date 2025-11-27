@@ -12,9 +12,9 @@ interface WorkoutDetailsPageProps {
 export default async function WorkoutDetailsPage({
   params,
 }: WorkoutDetailsPageProps) {
-  const workoutId = params.id;
-  console.log("ID:", workoutId);
-  const workoutData = await GetWorkoutDetails(workoutId);
+  const { id } = await params;
+  console.log("ID:", id);
+  const workoutData = await GetWorkoutDetails(id);
   const session = await auth();
   const role = session?.user.role;
 
@@ -43,10 +43,6 @@ export default async function WorkoutDetailsPage({
             )}
           </div>
           <div className="flex items-center gap-4 text-sm text-zinc-500 dark:text-zinc-400">
-            <div className="flex items-center gap-1">
-              <Clock className="h-4 w-4" />
-              XX Time
-            </div>
             <div className="flex items-center gap-1">
               <Dumbbell className="h-4 w-4" />
               {workoutData.exercises.length} Exercises
