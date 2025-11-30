@@ -43,8 +43,11 @@ export default function CreateUserPage() {
 
   useEffect(() => {
     if (formState?.success) {
-      redirect("/dashboard/users");
+      if (user.role !== "Manager") {
+        redirect("/dashboard/users");
+      }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formState?.success]);
 
   if (status === "loading" || !user?.role) {

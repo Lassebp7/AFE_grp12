@@ -7,8 +7,6 @@ export default async function UsersListPage() {
   const session = await auth();
   const currentUserRole: UserRoles = session?.user?.role;
 
-  const clients = await getClientsByTrainer();
-
   // Should never be used, as route guarding should prevent manager access
   if (currentUserRole === "Manager") {
     return (
@@ -21,6 +19,8 @@ export default async function UsersListPage() {
       </div>
     );
   }
+
+  const clients = await getClientsByTrainer();
 
   return (
     <div className="mx-auto max-w-5xl space-y-6 p-6 font-sans">
