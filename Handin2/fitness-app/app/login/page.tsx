@@ -44,8 +44,21 @@ export default function LoginPage() {
     authenticate,
     {
       errors: [],
+      success: false,
     }
   );
+
+  // Update session when redirecting to dashboard
+  // To remove stale cached sessiondata
+  useEffect(() => {
+    if (formState?.success) {
+      data.update().then(() => {
+        router.replace("/dashboard");
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formState?.success, router]);
+
   const emailError = formState?.properties?.email?.errors[0];
   const passwordError = formState?.properties?.password?.errors[0];
   const formError = formState?.errors[0];

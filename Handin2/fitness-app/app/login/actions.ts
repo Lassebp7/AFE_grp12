@@ -2,7 +2,6 @@
 
 import { signIn } from "@/app/auth/auth";
 import { AuthError } from "next-auth";
-import { redirect } from "next/navigation";
 import z from "zod";
 
 const LoginSchema = z.object({
@@ -25,6 +24,7 @@ export type FormState = {
     email?: string;
     password?: string;
   };
+  success: boolean;
 };
 
 export async function authenticate(prevState: FormState, formData: FormData) {
@@ -70,5 +70,5 @@ export async function authenticate(prevState: FormState, formData: FormData) {
     }
     throw error;
   }
-  redirect("/dashboard");
+  return { errors: [], success: true } as FormState;
 }
