@@ -2,6 +2,7 @@
 
 import { SessionUser } from "@/app/types";
 import { post } from "@/utils/api";
+import { revalidatePath } from "next/cache";
 import z from "zod";
 
 const createUserSchema = z.object({
@@ -90,6 +91,7 @@ export async function createUser(
   try {
     console.log(payload);
     await post<CreateUserPayload>("/Users", payload);
+    revalidatePath("/dashboard/users");
 
     return {
       success: true,

@@ -1,9 +1,10 @@
 "use client";
 import useUser from "@/app/hooks/use-user";
-import { Loader2, Save, UserPlus } from "lucide-react";
+import { ArrowLeft, Loader2, Save, UserPlus } from "lucide-react";
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
 import { createUser, CreateUserFormState } from "./actions";
+import Link from "next/link";
 
 function SubmitButton({ isManager }: { isManager: boolean }) {
   const { pending } = useFormStatus();
@@ -58,6 +59,15 @@ export default function CreateUserPage() {
     <div className="flex flex-col items-center justify-center p-6 font-sans bg-zinc-50 dark:bg-black">
       <div className="w-full max-w-xl space-y-8 bg-white p-8 rounded-xl shadow-lg dark:bg-zinc-950">
         {/* Header */}
+        <div className="mb-6">
+          <Link
+            href="/dashboard/users"
+            className="group inline-flex items-center gap-2 text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-white"
+          >
+            <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
+            Back
+          </Link>
+        </div>
         <div className="flex items-center gap-4 border-b border-zinc-200 pb-6 dark:border-zinc-800">
           <div className="rounded-lg bg-zinc-100 p-3 dark:bg-zinc-900">
             <UserPlus className="h-6 w-6 text-zinc-900 dark:text-white" />
