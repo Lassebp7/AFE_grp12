@@ -32,12 +32,21 @@ function SubmitButton({ isManager }: { isManager: boolean }) {
 }
 
 export default function CreateUserPage() {
-  const { user } = useUser();
+  const { user, status } = useUser();
+
   const boundCreateUser = createUser.bind(null, user); // Binds user to createTrainer, so we can pass it in and post depending on the current users role
   const [formState, dispatch] = useActionState<CreateUserFormState, FormData>(
     boundCreateUser,
     { errors: [] }
   );
+
+  if (status === "loading" || !user?.role) {
+    return (
+      <div className="flex min-h-[80vh] flex-col items-center justify-center ">
+        <Loader2 className="h-8 w-8 animate-spin text-zinc-500 dark:text-zinc-400" />
+      </div>
+    );
+  }
 
   const firstNameError = formState?.properties?.firstName?.errors[0];
   const lastNameError = formState?.properties?.lastName?.errors[0];
@@ -61,7 +70,7 @@ export default function CreateUserPage() {
         {/* Header */}
         <div className="mb-6">
           <Link
-            href="/dashboard/users"
+            href={isManager ? "/dashboard" : "/dashboard/users"}
             className="group inline-flex items-center gap-2 text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-white"
           >
             <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />

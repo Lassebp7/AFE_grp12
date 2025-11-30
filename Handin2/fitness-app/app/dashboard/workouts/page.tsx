@@ -12,6 +12,9 @@ export default async function WorkoutListPage() {
   if (!session?.user?.id) {
     redirect("/login");
   }
+  if (session?.user?.role == "Manager") {
+    redirect("/dashboard");
+  }
 
   const workouts =
     session.user.role === "Client"

@@ -6,7 +6,35 @@ import { SignoutButton } from "./button";
 import { NavLinks } from "./nav-links";
 
 export function NavBar() {
-  const { user } = useUser();
+  const { user, status } = useUser();
+
+  if (status === "loading" || !user?.role) {
+    // Render a skeleton or return null while loading
+    return (
+      <nav className="sticky top-0 z-50 w-full border-b border-zinc-200 bg-white/80 backdrop-blur-md dark:border-zinc-800 dark:bg-black/80">
+        <div className="relative mx-auto flex h-16 max-w-5xl items-center justify-between px-6">
+          <Link
+            href="/dashboard"
+            className="flex items-center gap-2 font-bold text-zinc-900 dark:text-white"
+          >
+            <div className="rounded-lg bg-zinc-900 p-1 dark:bg-white">
+              <Dumbbell className="h-4 w-4 text-white dark:text-black" />
+            </div>
+            <span>FitApp</span>
+          </Link>
+
+          {/* Navigation Skeleton during loading */}
+          <div className="flex flex-row items-center gap-2">
+            <div className="h-8 w-20 animate-pulse rounded-md bg-zinc-200 dark:bg-zinc-800" />
+            <div className="h-8 w-20 animate-pulse rounded-md bg-zinc-200 dark:bg-zinc-800" />
+          </div>
+
+          <SignoutButton />
+        </div>
+      </nav>
+    );
+  }
+
   const currentUserRole = user.role;
 
   return (
