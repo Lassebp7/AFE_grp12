@@ -1,10 +1,11 @@
 "use client";
 import useUser from "@/app/hooks/use-user";
 import { ArrowLeft, Loader2, Save, UserPlus } from "lucide-react";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { useFormStatus } from "react-dom";
 import { createUser, CreateUserFormState } from "./actions";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 function SubmitButton({ isManager }: { isManager: boolean }) {
   const { pending } = useFormStatus();
@@ -39,6 +40,12 @@ export default function CreateUserPage() {
     boundCreateUser,
     { errors: [] }
   );
+
+  useEffect(() => {
+    if (formState?.success) {
+      redirect("/dashboard/users");
+    }
+  }, [formState?.success]);
 
   if (status === "loading" || !user?.role) {
     return (

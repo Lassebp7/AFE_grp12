@@ -89,7 +89,6 @@ export async function createUser(
   }
 
   try {
-    console.log(payload);
     await post<CreateUserPayload>("/Users", payload);
     revalidatePath("/dashboard/users");
 

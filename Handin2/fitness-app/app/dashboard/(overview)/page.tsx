@@ -17,8 +17,8 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="flex flex-col items-center bg-zinc-50 p-6 font-sans dark:bg-black">
-      <main className="flex w-full max-w-xl flex-col items-center text-center space-y-8">
+    <div className="flex min-h-[90vh] flex-col items-center bg-black p-6 font-sans">
+      <main className="flex w-full h-full max-w-xl flex-col items-center text-center space-y-8 dark:bg-black">
         <div className="rounded-full bg-zinc-200 p-4 dark:bg-zinc-900">
           <User className="h-12 w-12 text-zinc-900 dark:text-white" />
         </div>

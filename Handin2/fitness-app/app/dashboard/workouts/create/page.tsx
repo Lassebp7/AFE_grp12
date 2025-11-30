@@ -31,8 +31,8 @@ export default async function CreateWorkoutPage() {
 
       {/* page title */}
       <div className="mb-10 flex items-center gap-4 border-b border-zinc-200 pb-6 dark:border-zinc-800">
-        <div className="rounded-lg bg-zinc-100 p-3 dark:bg-zinc-900">
-          <Dumbbell className="h-6 w-6 text-zinc-900 dark:text-white" />
+        <div className="rounded-lg bg-indigo-50 p-3 dark:bg-indigo-950">
+          <Dumbbell className="h-6 w-6 text-indigo-600 dark:text-indigo-300" />
         </div>
         <div>
           <h1 className="text-2xl font-bold">Create New Program</h1>
@@ -43,8 +43,10 @@ export default async function CreateWorkoutPage() {
       </div>
 
       {/* form */}
-      <CreateWorkoutForm clients={clients} personalTrainerId={sessions.user.id} />
-
+      <CreateWorkoutForm
+        clients={clients}
+        personalTrainerId={sessions.user.id}
+      />
     </div>
   );
 }
