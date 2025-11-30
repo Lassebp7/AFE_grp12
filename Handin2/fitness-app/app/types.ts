@@ -16,24 +16,24 @@ export interface SessionUser {
   role: UserRoles;
 }
 
-export interface exercise {
-  exerciseId: number,
-  groupId: string,
-  name: string,
-  description: string,
-  sets: number,
-  repetitions: number,
-  time: string,
-  workoutProgramId: number,
-  personalTrainerId: number
+export interface Exercise {
+  exerciseId: number;
+  groupId: string;
+  name: string;
+  description: string;
+  sets: number;
+  repetitions: number;
+  time: string;
+  workoutProgramId: number;
+  personalTrainerId: number;
 }
 
 export interface Workout {
-  workoutProgramId?: number,
-  groupId?: string,
-  name: string,
-  description: string,
-  exercises: exercise[],
-  personalTrainerId?: number,
-  clientId: number
+  workoutProgramId?: number;
+  groupId?: string;
+  name: string;
+  description: string;
+  exercises: Exercise[];
+  personalTrainerId?: number;
+  clientId: number;
 }

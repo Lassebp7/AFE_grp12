@@ -1,7 +1,8 @@
-import { ArrowLeft, Clock, Dumbbell, Plus, Repeat, Trash2 } from "lucide-react";
-import { GetWorkoutDetails } from "./actions";
-import Link from "next/link";
 import { auth } from "@/app/auth/auth";
+import { ArrowLeft, Dumbbell, Plus } from "lucide-react";
+import Link from "next/link";
+import { GetWorkoutDetails } from "./actions";
+import ExerciseRowComponent from "./exercise-row";
 
 interface WorkoutDetailsPageProps {
   params: {
@@ -30,14 +31,14 @@ export default async function WorkoutDetailsPage({
         </Link>
       </div>
 
-      {/* --- TITLE SECTION --- */}
+      {/* Title and stuff like that */}
       <div className="mb-8 flex items-start justify-between border-b border-zinc-200 pb-8 dark:border-zinc-800">
         <div className="space-y-2">
           <div className="flex items-center gap-3">
             <h1 className="text-3xl font-bold">{workoutData.name}</h1>
             {role === "PersonalTrainer" && (
               <span className="rounded-full bg-zinc-100 px-3 py-1 text-xs font-medium text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300">
-                For: {workoutData.clientId}
+                Client ID: {workoutData.clientId}
               </span>
             )}
           </div>
@@ -52,7 +53,7 @@ export default async function WorkoutDetailsPage({
           </p>
         </div>
 
-        {/* ACTION BUTTONS */}
+        {/* Create new exercise button*/}
         <div className="flex gap-3">
           {role === "PersonalTrainer" && (
             <Link
@@ -66,72 +67,19 @@ export default async function WorkoutDetailsPage({
         </div>
       </div>
 
-      {/* --- EXERCISE LIST --- */}
+      {/* Exercise list */}
       <div className="space-y-4">
         <h2 className="text-lg font-semibold">Exercises</h2>
 
+        {/* Wrap row into client component to add interactivity */}
         {workoutData.exercises.map((exercise, index) => (
-          <div
+          <ExerciseRowComponent
+            exercise={exercise}
+            index={index}
+            role={role}
+            workoutData={workoutData}
             key={exercise.exerciseId}
-            className="group flex flex-col gap-4 rounded-xl border border-zinc-200 bg-white p-5 shadow-sm transition-all dark:border-zinc-800 dark:bg-zinc-900 sm:flex-row sm:items-center sm:justify-between"
-          >
-            {/* LEFT: Info */}
-            <div className="flex items-start gap-4">
-              {/* Number Badge */}
-              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-zinc-100 text-sm font-bold text-zinc-500 dark:bg-zinc-800">
-                {index + 1}
-              </div>
-
-              <div>
-                <h3 className="font-bold text-zinc-900 dark:text-white">
-                  {exercise.name}
-                </h3>
-                <p className="text-sm text-zinc-500 dark:text-zinc-400">
-                  {exercise.description}
-                </p>
-              </div>
-            </div>
-
-            {/* RIGHT: Stats (Sets / Reps or Time) */}
-            <div className="flex items-center gap-6 pl-12 sm:pl-0">
-              {/* SETS (Always present) */}
-              <div className="text-center">
-                <span className="block text-xs font-medium uppercase text-zinc-400">
-                  Sets
-                </span>
-                <span className="text-lg font-bold">{exercise.sets}</span>
-              </div>
-
-              {/* REPS vs DURATION Logic */}
-              <div className="text-center">
-                <span className="block text-xs font-medium uppercase text-zinc-400">
-                  {exercise.repetitions ? "Reps" : "Time"}
-                </span>
-                <div className="flex items-center gap-1">
-                  {exercise.repetitions ? (
-                    <>
-                      <Repeat className="h-3 w-3 text-zinc-400" />
-                      <span className="text-lg font-bold">
-                        {exercise.repetitions}
-                      </span>
-                    </>
-                  ) : (
-                    <>
-                      <Clock className="h-3 w-3 text-zinc-400" />
-                      <span className="text-lg font-bold">{exercise.time}</span>
-                    </>
-                  )}
-                </div>
-              </div>
-
-              {/* Trainer Action: Delete Exercise */}
-              {role === "PersonalTrainer" && (
-                <button className="ml-4 rounded-md p-2 text-zinc-400 opacity-0 transition-opacity hover:bg-red-50 hover:text-red-600 group-hover:opacity-100 dark:hover:bg-red-900/20">
-                  <Trash2 className="h-4 w-4" />
-                </button>
-              )}
-            </div>
-          </div>
+          />
         ))}
       </div>
     </div>
