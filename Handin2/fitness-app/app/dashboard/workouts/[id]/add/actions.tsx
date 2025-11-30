@@ -32,11 +32,10 @@ const createExerciseSchema = z
       .nullable(),
     time: z.string().optional().nullable(),
   })
+  // XOR on repetitions and time
   .refine((d) => !!d.repetitions !== !!d.time, {
-    message: "Specify either repetitions or time, but not both.",
-    // Set the path to the fields that might be missing one or the other.
-    // If both are missing, the path will point to 'repetitions' for the error display.
-    path: ["repetitions"],
+    message: "Specify either repetitions or time.",
+    path: ["time"],
   });
 
 export type CreateExerciseFormState = {
@@ -63,10 +62,8 @@ export async function createExercise(
     name: formData.get("name"),
     description: formData.get("description"),
     sets: formData.get("sets"),
-    // Reps and Time are mutually exclusive, handle based on radio button choice
-    repetitions:
-      formData.get("type") === "reps" ? formData.get("repetitions") : null,
-    time: formData.get("type") === "time" ? formData.get("time") : null,
+    repetitions: formData.get("repetitions"),
+    time: formData.get("time"),
   };
 
   const result = createExerciseSchema.safeParse(data);

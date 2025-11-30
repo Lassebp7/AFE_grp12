@@ -1,15 +1,8 @@
 "use client";
 
-import {
-  ArrowLeft,
-  Clock,
-  Dumbbell,
-  Loader2,
-  Repeat,
-  Save,
-} from "lucide-react";
+import { ArrowLeft, Dumbbell, Loader2, Save } from "lucide-react";
 import Link from "next/link";
-import { useActionState, useState } from "react";
+import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
 import { createExercise, CreateExerciseFormState } from "./actions";
 
@@ -61,24 +54,10 @@ export default function CreateExerciseForm({
     FormData
   >(boundCreateExercise, initialState);
 
-  // Preventing bug with some default behaviour on radio buttons
-  const defaultType =
-    (formState.data?.time ?? null) !== null &&
-    (formState.data?.time ?? "") !== "" &&
-    (formState.data?.repetitions ?? null) === null
-      ? "time"
-      : "reps";
-
-  // State for the Reps/Time radio toggle
-  const [exerciseType, setExerciseType] = useState<"reps" | "time">(
-    defaultType
-  );
-
   // Error Extraction (simplified for clarity)
   const nameError = formState?.properties?.name?.errors[0];
   const descriptionError = formState?.properties?.description?.errors[0];
   const setsError = formState?.properties?.sets?.errors[0];
-  const repetitionsError = formState?.properties?.repetitions?.errors[0];
   const timeError = formState?.properties?.time?.errors[0];
   const formError =
     formState?.errors && formState.errors.length > 0
@@ -176,102 +155,45 @@ export default function CreateExerciseForm({
             )}
           </div>
 
-          {/* --- Reps/Time Toggle --- */}
-          <div className="space-y-3 pt-2">
-            <h3 className="text-sm font-medium text-zinc-900 dark:text-zinc-300">
-              Specify Metric
-            </h3>
+          {/* Reps */}
+          <div className="space-y-2">
+            <label
+              htmlFor="repetitions"
+              className="text-sm font-medium text-zinc-900 dark:text-zinc-300"
+            >
+              (Optional) Reps per Set
+            </label>
+            <input
+              id="repetitions"
+              type="number"
+              name="repetitions"
+              defaultValue={formState.data?.repetitions ?? ""}
+              className={InputClass(timeError)}
+              placeholder="e.g. 12"
+            />
+          </div>
 
-            <div className="flex gap-4">
-              {/* Reps Radio Button */}
-              <label
-                className={`flex items-center gap-2 rounded-md p-3 w-1/2 cursor-pointer transition-colors ${
-                  exerciseType === "reps"
-                    ? "bg-indigo-50 border-indigo-400 dark:bg-indigo-900/40"
-                    : "bg-zinc-100 border-zinc-200 dark:bg-zinc-800"
-                }`}
-              >
-                <input
-                  type="radio"
-                  name="type"
-                  value="reps"
-                  checked={exerciseType === "reps"}
-                  onChange={() => setExerciseType("reps")}
-                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500"
-                />
-                <Repeat className="h-4 w-4" />
-                <span className="text-sm font-medium">Repetitions</span>
-              </label>
-
-              {/* Time Radio Button */}
-              <label
-                className={`flex items-center gap-2 rounded-md p-3 w-1/2 cursor-pointer transition-colors ${
-                  exerciseType === "time"
-                    ? "bg-indigo-50 border-indigo-400 dark:bg-indigo-900/40"
-                    : "bg-zinc-100 border-zinc-200 dark:bg-zinc-800"
-                }`}
-              >
-                <input
-                  type="radio"
-                  name="type"
-                  value="time"
-                  checked={exerciseType === "time"}
-                  onChange={() => setExerciseType("time")}
-                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500"
-                />
-                <Clock className="h-4 w-4" />
-                <span className="text-sm font-medium">Time Duration</span>
-              </label>
-            </div>
-
-            {/* Conditional Input Field */}
-            {exerciseType === "reps" ? (
-              <div className="space-y-2">
-                <label
-                  htmlFor="repetitions"
-                  className="text-sm font-medium text-zinc-900 dark:text-zinc-300"
-                >
-                  Reps per Set
-                </label>
-                <input
-                  id="repetitions"
-                  type="number"
-                  name="repetitions"
-                  defaultValue={formState.data?.repetitions ?? ""}
-                  className={InputClass(repetitionsError)}
-                  placeholder="e.g. 12"
-                />
-                {repetitionsError && (
-                  <p className="text-xs text-red-500 mt-1">
-                    {repetitionsError}
-                  </p>
-                )}
-              </div>
-            ) : (
-              <div className="space-y-2">
-                <label
-                  htmlFor="time"
-                  className="text-sm font-medium text-zinc-900 dark:text-zinc-300"
-                >
-                  Time per Set (e.g., 60s, 1m30s)
-                </label>
-                <input
-                  id="time"
-                  type="text"
-                  name="time"
-                  defaultValue={formState.data?.time ?? ""}
-                  className={InputClass(timeError)}
-                  placeholder="e.g. 45s"
-                />
-                {timeError && (
-                  <p className="text-xs text-red-500 mt-1">{timeError}</p>
-                )}
-              </div>
+          {/* Time */}
+          <div className="space-y-2">
+            <label
+              htmlFor="time"
+              className="text-sm font-medium text-zinc-900 dark:text-zinc-300"
+            >
+              (Optional) Time per Set (e.g., 60s, 1m30s)
+            </label>
+            <input
+              id="time"
+              type="text"
+              name="time"
+              defaultValue={formState.data?.time ?? ""}
+              className={InputClass(timeError)}
+              placeholder="e.g. 45s"
+            />
+            {timeError && (
+              <p className="text-xs text-red-500 mt-1">{timeError}</p>
             )}
           </div>
-          {/* --- End Reps/Time Toggle --- */}
 
-          {/* Submit Button */}
           <SubmitButton />
 
           {/* Messages */}
